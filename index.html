@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>معرض المنتجات - اطلب بنقرة واحدة</title>
     <style>
-        /* التنسيقات (CSS) */
+        /* التنسيقات العامة */
         body {
             font-family: 'Arial', sans-serif;
             background-color: #f8f8f8;
@@ -30,16 +30,37 @@
             font-size: 1.1em;
             margin-bottom: 30px;
         }
+        
+        /* ------------------------------------------------ */
+        /* تأثير النبض (Heartbeat Animation) */
+        /* ------------------------------------------------ */
+        @keyframes heartbeat {
+            0% {
+                transform: scale(1);
+            }
+            25% {
+                transform: scale(1.03); /* يتمدد قليلاً */
+                box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            }
+            50% {
+                transform: scale(1);
+            }
+            75% {
+                transform: scale(1.03); /* يتمدد قليلاً مرة أخرى */
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
 
         /* تنسيقات معرض الصور */
         .product-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 20px;
-            margin-bottom: 30px; /* مسافة قبل زر الكتالوج */
+            margin-bottom: 30px;
         }
         
-        /* تفعيل الصورة كزر */
         .product-item {
             text-align: center;
             border: 3px solid #ddd;
@@ -62,7 +83,7 @@
             display: block;
         }
         
-        /* زر "اطلب الآن" الذي يظهر تحت الصورة */
+        /* الزر الذي نريد أن ينبض */
         .order-button {
             display: block;
             background-color: #25D366;
@@ -71,21 +92,24 @@
             font-weight: bold;
             text-decoration: none;
             font-size: 1em;
+            /* تطبيق الحركة هنا */
+            animation: heartbeat 2.5s infinite ease-in-out; /* تطبيق النبض بشكل مستمر */
         }
 
-        /* تنسيق زر الكتالوج الجديد */
+        /* تنسيق زر الكتالوج */
         .catalog-btn {
-            background-color: #0088CC; /* لون أزرق مميز */
+            background-color: #0088CC;
             color: white;
-            padding: 15px 30px;
-            font-size: 1.2em;
+            padding: 18px 35px; 
+            font-size: 1.3em;
             font-weight: bold;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
             display: inline-block;
             transition: background-color 0.3s;
-            text-decoration: none; /* مهم لإزالة التنسيقات الافتراضية للروابط */
+            text-decoration: none; 
+            margin: 20px 0; 
         }
         .catalog-btn:hover {
             background-color: #006699;
@@ -97,7 +121,12 @@
 
 <div class="container">
     <h2>معرض المنتجات السريعة</h2>
-    <p class="subtitle">اضغط على صورة المنتج لطلبه مباشرةً، أو اطلب الكتالوج كاملاً!</p>
+
+    <a href="javascript:void(0);" onclick="requestCatalog();" class="catalog-btn">
+        اطلب الكتالوج كاملاً
+    </a>
+
+    <p class="subtitle">اضغط على صورة المنتج لطلبه مباشرةً</p>
 
     <div class="product-grid">
         <div class="product-item" onclick="window.open(getOrderLink('Amoria'), '_self')">
@@ -162,18 +191,11 @@
         
     </div>
 
-    <a href="javascript:void(0);" onclick="requestCatalog();" class="catalog-btn">
-        اطلب الكتالوج كاملاً
-    </a>
-
 </div>
 
 <script>
     // **1. إعدادات الواتساب:**
-    // ********************************************************
-    // رقم الواتساب الذي سيستقبل الطلبات (بصيغة دولية بدون +)
     const whatsappNumber = "972522511749"; 
-    // ********************************************************
 
     /**
      * تُنشئ رابط واتساب جاهز برسالة الطلب للمنتج المحدد.
