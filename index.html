@@ -33,10 +33,10 @@
 
         /* تنسيقات معرض الصور */
         .product-grid {
-            /* تصميم شبكي لعرض المنتجات في صفوف وأعمدة */
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 20px;
+            margin-bottom: 30px; /* مسافة قبل زر الكتالوج */
         }
         
         /* تفعيل الصورة كزر */
@@ -51,7 +51,7 @@
         }
         
         .product-item:hover {
-            border-color: #25D366; /* لون واتساب عند التحويم */
+            border-color: #25D366; 
             box-shadow: 0 4px 15px rgba(37, 211, 102, 0.6);
             transform: scale(1.03);
         }
@@ -62,7 +62,7 @@
             display: block;
         }
         
-        /* زر "اطلب الآن" الذي يظهر فوق الصورة أو تحتها */
+        /* زر "اطلب الآن" الذي يظهر تحت الصورة */
         .order-button {
             display: block;
             background-color: #25D366;
@@ -72,6 +72,24 @@
             text-decoration: none;
             font-size: 1em;
         }
+
+        /* تنسيق زر الكتالوج الجديد */
+        .catalog-btn {
+            background-color: #0088CC; /* لون أزرق مميز */
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: inline-block;
+            transition: background-color 0.3s;
+            text-decoration: none; /* مهم لإزالة التنسيقات الافتراضية للروابط */
+        }
+        .catalog-btn:hover {
+            background-color: #006699;
+        }
         
     </style>
 </head>
@@ -79,7 +97,7 @@
 
 <div class="container">
     <h2>معرض المنتجات السريعة</h2>
-    <p class="subtitle">اضغط على صورة المنتج لتحصل على العرض مباشرةً عبر واتساب!</p>
+    <p class="subtitle">اضغط على صورة المنتج لطلبه مباشرةً، أو اطلب الكتالوج كاملاً!</p>
 
     <div class="product-grid">
         <div class="product-item" onclick="window.open(getOrderLink('Amoria'), '_self')">
@@ -144,9 +162,8 @@
         
     </div>
 
-    <a href="javascript:alert('الرجاء اختيار المنتج المطلوب من الصور أعلاه!');" class="order-button" 
-       style="margin-top: 30px; font-size: 1.2em; padding: 15px; border-radius: 8px; max-width: 300px; display: inline-block;">
-        للحصول على العرض (اضغط على الصورة)
+    <a href="javascript:void(0);" onclick="requestCatalog();" class="catalog-btn">
+        اطلب الكتالوج كاملاً
     </a>
 
 </div>
@@ -164,18 +181,26 @@
      * @returns {string} - رابط واتساب URL.
      */
     function getOrderLink(productName) {
-        // بناء رسالة واتساب
         let message = `مرحباً، أنا مهتم بالحصول على العرض التالي:\n\n`;
         message += `*اسم العرض/المنتج:* ${productName}\n\n`;
         message += `الرجاء تزويدي بالتفاصيل وطريقة الطلب.`;
         
-        // ترميز الرسالة
         const encodedMessage = encodeURIComponent(message);
-
-        // إنشاء رابط واتساب المباشر
         const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
         
         return whatsappUrl;
+    }
+    
+    /**
+     * تُنشئ رابط واتساب لطلب الكتالوج بشكل عام.
+     */
+    function requestCatalog() {
+        let message = `مرحباً، أرجو إرسال الكتالوج الكامل لجميع المنتجات. شكراً.`;
+        
+        const encodedMessage = encodeURIComponent(message);
+        const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+        
+        window.open(whatsappUrl, '_self');
     }
 </script>
 
