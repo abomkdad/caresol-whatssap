@@ -85,25 +85,25 @@ let autoTimer = null;
 let images = [];
 
 // تحميل أسماء الصور من ملف JSON داخل مجلد Image
-async function loadimages(){
+async function loadImages(){
   const warn = document.getElementById('loadWarn');
   try{
     const res = await fetch(IMAGES_MANIFEST, { cache: 'no-store' });
     if(!res.ok) throw new Error('manifest not found');
     const data = await res.json();
     if(!Array.isArray(data) || !data.length){
-      warn.innerHTML = '⚠️ <span class="warn">images.json فارغ داخل مجلد images.</span>';
+      warn.innerHTML = '⚠️ <span class="warn">images.json فارغ داخل مجلد Image.</span>';
       return [];
     }
     return data; // مثال: ["file1.png","file2.jpg"]
   }catch(err){
-    warn.innerHTML = '⚠️ <span class="warn">تعذّر تحميل images/images.json — أنشئه بقائمة أسماء الملفات.</span>';
+    warn.innerHTML = '⚠️ <span class="warn">تعذّر تحميل Images/images.json — أنشئه بقائمة أسماء الملفات.</span>';
     return [];
   }
 }
 
 async function renderSlides(){
-  let data = await loadimages();
+  let data = await loadImages();
   images = (Array.isArray(data)? data: []).map(it => {
     if (typeof it === 'string') return it;
     if (it && typeof it === 'object' && it.url) return it.url;
@@ -116,7 +116,7 @@ async function renderSlides(){
 
   images.forEach((file, i) => {
     const clean = (file||'').replace(/^\.\/?/, '');
-    const url = clean.startsWith('images/') ? `./${clean}` : `./images/${clean}`; // نضمن استخدام مجلد images
+    const url = clean.startsWith('Images/') ? `./${clean}` : `./Images/${clean}`; // نضمن استخدام مجلد Image
     const name = clean.split('/').pop(); // يستخدم الاسم كما هو (مع الامتداد)
 
     const div = document.createElement('div');
