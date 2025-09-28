@@ -25,28 +25,27 @@
             margin-bottom: 5px;
         }
         p.subtitle {
-            color: #4CAF50;
             font-weight: bold;
             font-size: 1.1em;
             margin-bottom: 30px;
         }
 
         /* ------------------------------------------------ */
-        /* تأثير النبض السريع (Fast Heartbeat Animation) */
+        /* تأثير النبض السريع (Heartbeat Animation) */
         /* ------------------------------------------------ */
         @keyframes heartbeat {
             0% {
                 transform: scale(1);
             }
             25% {
-                transform: scale(1.05); /* زيادة شدة التمدد قليلاً */
+                transform: scale(1.05);
                 box-shadow: 0 0 15px rgba(255, 255, 255, 0.9);
             }
             50% {
                 transform: scale(1);
             }
             75% {
-                transform: scale(1.05); /* زيادة شدة التمدد قليلاً مرة أخرى */
+                transform: scale(1.05);
             }
             100% {
                 transform: scale(1);
@@ -92,7 +91,6 @@
             font-weight: bold;
             text-decoration: none;
             font-size: 1em;
-            /* تطبيق الحركة الجديدة: أسرع بكثير (1s) */
             animation: heartbeat 1s infinite ease-in-out; 
         }
 
@@ -120,73 +118,73 @@
 <body>
 
 <div class="container">
-    <h2>معرض المنتجات السريعة</h2>
+    <h2 id="main-title">معرض المنتجات السريعة</h2>
 
-    <a href="javascript:void(0);" onclick="requestCatalog();" class="catalog-btn">
+    <a href="javascript:void(0);" onclick="requestCatalog();" class="catalog-btn" id="catalog-btn-top">
         اطلب الكتالوج كاملاً
     </a>
 
-    <p class="subtitle">اضغط على صورة المنتج لطلبه مباشرةً</p>
+    <p class="subtitle" id="sub-title">اضغط على صورة المنتج لطلبه مباشرةً</p>
 
     <div class="product-grid">
         <div class="product-item" onclick="window.open(getOrderLink('Amoria'), '_self')">
             <img src="images/amoria.png" alt="Amoria">
-            <span class="order-button">أطلب عرض Amoria</span>
+            <span class="order-button" data-name-ar="Amoria" data-name-he="אמוריה"></span>
         </div>
         
         <div class="product-item" onclick="window.open(getOrderLink('Berlin'), '_self')">
             <img src="images/berlin.png" alt="Berlin">
-            <span class="order-button">أطلب عرض Berlin</span>
+            <span class="order-button" data-name-ar="Berlin" data-name-he="ברלין"></span>
         </div>
 
         <div class="product-item" onclick="window.open(getOrderLink('Havana'), '_self')">
             <img src="images/havana.png" alt="Havana">
-            <span class="order-button">أطلب عرض Havana</span>
+            <span class="order-button" data-name-ar="Havana" data-name-he="הוואנה"></span>
         </div>
 
         <div class="product-item" onclick="window.open(getOrderLink('Marvel'), '_self')">
             <img src="images/marvel.png" alt="Marvel">
-            <span class="order-button">أطلب عرض Marvel</span>
+            <span class="order-button" data-name-ar="Marvel" data-name-he="מארבל"></span>
         </div>
 
         <div class="product-item" onclick="window.open(getOrderLink('Norma'), '_self')">
             <img src="images/norma.png" alt="Norma">
-            <span class="order-button">أطلب عرض Norma</span>
+            <span class="order-button" data-name-ar="Norma" data-name-he="נורמה"></span>
         </div>
         
         <div class="product-item" onclick="window.open(getOrderLink('Sofia'), '_self')">
             <img src="images/sofia.png" alt="Sofia">
-            <span class="order-button">أطلب عرض Sofia</span>
+            <span class="order-button" data-name-ar="Sofia" data-name-he="סופיה"></span>
         </div>
         
         <div class="product-item" onclick="window.open(getOrderLink('Boos and Ledy'), '_self')">
             <img src="images/boos and ledy.png" alt="Boos and Ledy">
-            <span class="order-button">أطلب عرض Boos and Ledy</span>
+            <span class="order-button" data-name-ar="Boos and Ledy" data-name-he="בוס וליידי"></span>
         </div>
         
         <div class="product-item" onclick="window.open(getOrderLink('P107'), '_self')">
             <img src="images/p107.png" alt="P107">
-            <span class="order-button">أطلب عرض P107</span>
+            <span class="order-button" data-name-ar="P107" data-name-he="פי107"></span>
         </div>
         
         <div class="product-item" onclick="window.open(getOrderLink('Miami'), '_self')">
             <img src="images/miami.png" alt="Miami">
-            <span class="order-button">أطلب عرض Miami</span>
+            <span class="order-button" data-name-ar="Miami" data-name-he="מיאמי"></span>
         </div>
         
         <div class="product-item" onclick="window.open(getOrderLink('Pairs'), '_self')">
             <img src="images/pairs.png" alt="Pairs">
-            <span class="order-button">أطلب عرض Pairs</span>
+            <span class="order-button" data-name-ar="Pairs" data-name-he="פיירס"></span>
         </div>
         
         <div class="product-item" onclick="window.open(getOrderLink('Vagas'), '_self')">
             <img src="images/vagas.png" alt="Vagas">
-            <span class="order-button">أطلب عرض Vagas</span>
+            <span class="order-button" data-name-ar="Vagas" data-name-he="וגאס"></span>
         </div>
         
         <div class="product-item" onclick="window.open(getOrderLink('W183'), '_self')">
             <img src="images/w183.png" alt="W183">
-            <span class="order-button">أطلب عرض W183</span>
+            <span class="order-button" data-name-ar="W183" data-name-he="דבليو183"></span>
         </div>
         
     </div>
@@ -197,28 +195,76 @@
     // **1. إعدادات الواتساب:**
     const whatsappNumber = "972522511749"; 
 
-    /**
-     * تُنشئ رابط واتساب جاهز برسالة الطلب للمنتج المحدد.
-     * @param {string} productName - اسم المنتج (العرض).
-     * @returns {string} - رابط واتساب URL.
-     */
-    function getOrderLink(productName) {
-        let message = `مرحباً، أنا مهتم بالحصول على العرض التالي:\n\n`;
-        message += `*اسم العرض/المنتج:* ${productName}\n\n`;
-        message += `الرجاء تزويدي بالتفاصيل وطريقة الطلب.`;
+    // **2. قاموس النصوص لدعم اللغات:**
+    const texts = {
+        ar: {
+            mainTitle: "معرض المنتجات السريعة",
+            subTitle: "اضغط على صورة المنتج لطلبه مباشرةً",
+            catalogBtn: "اطلب الكتالوج كاملاً",
+            orderBtnPrefix: "أطلب عرض",
+            waMsgOrder: (name) => `מرحباً، أنا مهتم بالحصول على العرض التالي:\n\n*اسم العرض/المنتج:* ${name}\n\nالرجاء تزويدي بالتفاصيل وطريقة الطلب.`,
+            waMsgCatalog: "מرحباً، אرجو إرسال الكتالوج الكامل لجميع المنتجات. شكراً."
+        },
+        he: {
+            mainTitle: "גלריית המוצרים המהירה",
+            subTitle: "לחץ על תמונת המוצר להזמנה מיידית",
+            catalogBtn: "בבקשה קטלוג מלא",
+            orderBtnPrefix: "הזמן מבצע",
+            waMsgOrder: (name) => `היי, אני מעוניין בהצעה הבאה:\n\n*שם המבצע/המוצר:* ${name}\n\nנא לספק פרטים ודרך להזמנה.`,
+            waMsgCatalog: "היי, אבקש לשלוח לי את הקטלוג המלא של כל המוצרים. תודה."
+        }
+    };
+    
+    // **3. الكشف عن لغة الجهاز والتعديل:**
+    function setLanguage() {
+        // الكشف عن لغة المتصفح (يتم أخذ الجزء الأول فقط: ar أو he)
+        const langCode = (navigator.language || navigator.userLanguage).toLowerCase().substring(0, 2);
+        const currentLang = (langCode === 'he') ? 'he' : 'ar';
+        const t = texts[currentLang];
         
+        // تعديل اتجاه النص (Right-to-Left / Left-to-Right)
+        document.documentElement.lang = currentLang;
+        document.documentElement.dir = (currentLang === 'he' || currentLang === 'ar') ? 'rtl' : 'ltr';
+
+        // تعديل النصوص الرئيسية
+        document.getElementById('main-title').textContent = t.mainTitle;
+        document.getElementById('sub-title').textContent = t.subTitle;
+        
+        const catalogBtnTop = document.getElementById('catalog-btn-top');
+        catalogBtnTop.textContent = t.catalogBtn;
+
+        // تعديل نصوص أزرار الطلب الفردية
+        const orderButtons = document.querySelectorAll('.order-button');
+        orderButtons.forEach(button => {
+            // استخدام اسم المنتج باللغة المناسبة
+            const productName = button.getAttribute(`data-name-${currentLang}`);
+            button.textContent = `${t.orderBtnPrefix} ${productName}`;
+        });
+    }
+
+    // تشغيل وظيفة تحديد اللغة عند تحميل الصفحة
+    document.addEventListener('DOMContentLoaded', setLanguage);
+    
+    // **4. دوال الواتساب تبقى كما هي مع استخدام الرسائل المترجمة:**
+    function getOrderLink(productName) {
+        // اختيار رسالة الواتساب باللغة المناسبة
+        const langCode = (navigator.language || navigator.userLanguage).toLowerCase().substring(0, 2);
+        const currentLang = (langCode === 'he') ? 'he' : 'ar';
+        const productForMessage = (currentLang === 'he') ? texts.he.orderBtnPrefix : texts.ar.orderBtnPrefix; // فقط لأغراض العرض
+        
+        const message = texts[currentLang].waMsgOrder(productName);
         const encodedMessage = encodeURIComponent(message);
         const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
         
         return whatsappUrl;
     }
     
-    /**
-     * تُنشئ رابط واتساب لطلب الكتالوج بشكل عام.
-     */
     function requestCatalog() {
-        let message = `مرحباً، أرجو إرسال الكتالوج الكامل لجميع المنتجات. شكراً.`;
+        // اختيار رسالة الواتساب لطلب الكتالوج باللغة المناسبة
+        const langCode = (navigator.language || navigator.userLanguage).toLowerCase().substring(0, 2);
+        const currentLang = (langCode === 'he') ? 'he' : 'ar';
         
+        const message = texts[currentLang].waMsgCatalog;
         const encodedMessage = encodeURIComponent(message);
         const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
         
