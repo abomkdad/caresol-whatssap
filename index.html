@@ -11,8 +11,8 @@
     .slides{display:flex;transition:transform .5s ease-in-out}
     .slide{flex:0 0 100%;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;background:#0e1219}
     .slide img{width:100%;height:100%;object-fit:cover}
-    .caption{position:absolute;bottom:8px;left:8px;right:8px;background:rgba(0,0,0,.45);padding:6px 10px;border-radius:10px;display:flex;justify-content:space-between;align-items:center}
-    .choose{background:linear-gradient(180deg,#22c55e,#10b981);border:none;padding:4px 8px;border-radius:8px;font-weight:700;cursor:pointer}
+    .caption{position:absolute;bottom:8px;left:8px;right:8px;background:rgba(0,0,0,.45);padding:6px 10px;border-radius:10px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+    .choose{background:linear-gradient(180deg,#22c55e,#10b981);border:none;padding:4px 10px;border-radius:10px;font-weight:700;cursor:pointer}
     .navBtn{position:absolute;top:50%;transform:translateY(-50%);background:#131823;border:1px solid #243146;border-radius:50%;width:40px;height:40px;color:#fff;cursor:pointer}
     .prev{left:10px}.next{right:10px}
     .dots{position:absolute;bottom:12px;left:0;right:0;display:flex;justify-content:center;gap:6px}
@@ -54,63 +54,116 @@
   </div>
 
 <script>
+/* إعدادات مستودعك */
 const OWNER  = "abomkdad";
 const REPO   = "caresol-whatssap";
 const BRANCH = "main";
 const DIR    = "images";
 const YOUR_WHATSAPP_NUMBER = "972522511749";
 
-let selected=null, current=0, autoTimer=null, files=[];
+/* حالة */
+let slidesData = []; // [{name:'amoria', url:'https://raw.../images/amoria.png'}]
+let current = 0, autoTimer = null, selected = null;
 
-async function fetchImages(){
-  const api=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${DIR}?ref=${BRANCH}`;
-  try{
-    const res=await fetch(api,{headers:{'Accept':'application/vnd.github.v3+json'}});
-    const data=await res.json();
-    return data.filter(it=>it.type==='file' && /\.(png|jpe?g|webp|gif)$/i.test(it.name))
-               .map(it=>({name:it.name.replace(/\\.[^.]+$/,''), url:it.download_url}));
-  }catch{return []}
+/* ترميز آمن لمسار الملف (كل جزء لوحده) */
+function encodePath(path){
+  return path.split('/').map(encodeURIComponent).join('/');
 }
 
+/* جلب القائمة من Git Trees API (أضمن من contents) */
+async function fetchList(){
+  const url = `https://api.github.com/repos/${OWNER}/${REPO}/git/trees/${BRANCH}?recursive=1`;
+  const res = await fetch(url, {headers:{'Accept':'application/vnd.github+json'}});
+  const data = await res.json();
+  if(!data.tree){ throw new Error(data.message || "No tree"); }
+  const files = data.tree
+    .filter(n => n.type === 'blob' && n.path.startsWith(DIR + "/") && /\.(png|jpe?g|webp|gif)$/i.test(n.path))
+    .map(n => {
+      const filename = n.path.split('/').pop();             // amoria.png
+      const nameNoExt = filename.replace(/\.[^.]+$/,'');    // amoria
+      const raw = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/${encodePath(n.path)}`;
+      return { name: nameNoExt, url: raw };
+    });
+  return files;
+}
+
+/* رسم السلايدر */
 async function renderSlides(){
-  files=await fetchImages();
-  const slides=document.getElementById("slides"), dots=document.getElementById("dots");
-  slides.innerHTML=""; dots.innerHTML="";
-  if(!files.length){document.getElementById("loadWarn").innerHTML="⚠️ لا توجد صور";return;}
-  files.forEach((it,i)=>{
-    const div=document.createElement("div"); div.className="slide";
-    div.innerHTML=`<img src=\"${it.url}\" alt=\"${it.name}\" loading=\"lazy\">
-      <div class='caption'><span>${it.name}</span>
-      <button class='choose' onclick=\"selectItem('${it.name}','${it.url}')\">اختيار</button></div>`;
-    slides.appendChild(div);
-    const dot=document.createElement("div"); dot.className="dot";
-    dot.addEventListener("click",()=>goTo(i)); dots.appendChild(dot);
+  const slides = document.getElementById("slides");
+  const dots   = document.getElementById("dots");
+  const warn   = document.getElementById("loadWarn");
+  slides.innerHTML = ""; dots.innerHTML = ""; warn.textContent = "";
+
+  try{
+    slidesData = await fetchList();
+  }catch(e){
+    warn.innerHTML = "⚠️ تعذّر جلب الصور من GitHub API.";
+    slidesData = [];
+  }
+  if(!slidesData.length){
+    warn.innerHTML = "⚠️ لم يتم العثور على صور داخل مجلد <b>images</b>.";
+    return;
+  }
+
+  slidesData.forEach((it,i)=>{
+    const wrap = document.createElement("div");
+    wrap.className = "slide";
+    wrap.innerHTML = `
+      <img src="${it.url}" alt="${it.name}" loading="lazy">
+      <div class="caption">
+        <span>${it.name}</span>
+        <button class="choose" onclick="selectItem('${it.name}','${it.url}')">اختيار</button>
+      </div>`;
+    slides.appendChild(wrap);
+
+    const dot = document.createElement("div");
+    dot.className = "dot";
+    dot.addEventListener("click", ()=>goTo(i));
+    dots.appendChild(dot);
   });
-  selectItem(files[0].name,files[0].url); updateUI(); startAuto();
+
+  selectItem(slidesData[0].name, slidesData[0].url);
+  current = 0; updateUI(); startAuto();
 }
 
+/* تحكم السلايدر */
 function updateUI(){
-  document.getElementById("slides").style.transform=`translateX(-${current*100}%)`;
-  [...document.querySelectorAll(".dot")].forEach((d,i)=>d.classList.toggle("active",i===current));
+  document.getElementById("slides").style.transform = `translateX(-${current*100}%)`;
+  [...document.querySelectorAll(".dot")].forEach((d,i)=> d.classList.toggle("active", i===current));
 }
-function goTo(i){current=(i+files.length)%files.length;updateUI();}
-function prevSlide(){goTo(current-1);} function nextSlide(){goTo(current+1);}
-function startAuto(){if(autoTimer) clearInterval(autoTimer);autoTimer=setInterval(nextSlide,2000);}
-function selectItem(name,url){selected={name,url};document.getElementById("selectedTag").innerHTML=`<span class='tag'>${name}</span>`;}
-function sanitizePhone(v){return(v||'').replace(/\\D+/g,'');}
+function goTo(i){ current = (i + slidesData.length) % slidesData.length; updateUI(); }
+function prevSlide(){ goTo(current - 1); }
+function nextSlide(){ goTo(current + 1); }
+function startAuto(){ if(autoTimer) clearInterval(autoTimer); autoTimer = setInterval(nextSlide, 2000); }
+
+/* اختيار + واتساب */
+function selectItem(name,url){
+  selected = {name, url};
+  document.getElementById("selectedTag").innerHTML = `<span class="tag">${name}</span>`;
+}
+function sanitizePhone(v){ return (v||"").replace(/\D+/g,""); }
 function submitWA(){
-  const n=document.getElementById("fullname").value.trim(),
-        p=sanitizePhone(document.getElementById("phone").value),
-        a=document.getElementById("address").value.trim(),
-        notes=document.getElementById("notes").value.trim(),
-        note=document.getElementById("formNote");
-  if(!selected){note.innerHTML='⚠️ اختر صورة.';return;}
-  if(!n||p.length<8){note.innerHTML='⚠️ أدخل الاسم والهاتف.';return;}
-  const msg=`طلب جديد\\nالاسم: ${n}\\nالهاتف: ${p}\\nالعنوان: ${a||'-'}\\nملاحظات: ${notes||'-'}\\nالصورة: ${selected.name}\\nالرابط: ${selected.url}`;
-  window.open(`https://wa.me/${YOUR_WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`,'_blank');
-  note.innerHTML='✅ تم فتح واتساب.';
+  const name  = document.getElementById("fullname").value.trim();
+  const phone = sanitizePhone(document.getElementById("phone").value);
+  const addr  = (document.getElementById("address").value||"").trim();
+  const notes = (document.getElementById("notes").value||"").trim();
+  const note  = document.getElementById("formNote");
+  if(!selected){ note.innerHTML = "⚠️ اختر صورة أولاً."; return; }
+  if(!name || phone.length < 8){ note.innerHTML = "⚠️ أدخل الاسم والهاتف بشكل صحيح."; return; }
+
+  const msg = `طلب جديد من صفحة الهبوط
+الاسم: ${name}
+الهاتف: ${phone}
+العنوان: ${addr || "-"}
+ملاحظات: ${notes || "-"}
+الصورة: ${selected.name}
+الرابط: ${selected.url}`;
+
+  window.open(`https://wa.me/${"972522511749"}?text=${encodeURIComponent(msg)}`, "_blank");
+  note.innerHTML = "✅ تم فتح واتساب.";
 }
-document.getElementById("submitBtn").addEventListener("click",submitWA);
+
+document.getElementById("submitBtn").addEventListener("click", submitWA);
 renderSlides();
 </script>
 </body>
