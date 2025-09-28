@@ -149,15 +149,18 @@ async function renderSlides(){
   dots.innerHTML   = '';
 
   list.forEach((it,i)=>{
-    const url  = it.url.startsWith('http') ? it.url : `./${dir}/${it.url.replace(/^\.\/?/,'')}`;
-    const name = it.name; // استخدم اسم الملف كما هو
+    const filename = it.name; // اسم الملف فقط
+    const baseUrl  = it.url && it.url.startsWith('http') ? it.url : `./${dir}/${filename}`;
+    // ترميز آمن للأسماء التي فيها مسافات/أحرف خاصة
+    const safeUrl  = baseUrl.startsWith('http') ? baseUrl : encodeURI(baseUrl);
+    const name = filename; // استخدم الاسم كما هو
     const wrap = document.createElement('div');
     wrap.className = 'slide';
     wrap.innerHTML = `
-      <img src="${url}" alt="${name}">
+      <img src="${safeUrl}" alt="${name}" loading="lazy">
       <div class="caption">
         <span>${name}</span>
-        <button class="choose" onclick="selectItem('${name}','${absoluteUrl(url)}')">اختيار</button>
+        <button class="choose" onclick="selectItem('${name}','${safeUrl}')">اختيار</button>
       </div>`;
     slides.appendChild(wrap);
 
@@ -168,7 +171,12 @@ async function renderSlides(){
   });
 
   totalSlides = list.length;
-  if(totalSlides){ selectItem(list[0].name, absoluteUrl(list[0].url.startsWith('http')? list[0].url : `./${dir}/${list[0].url}`)); }
+  if(totalSlides){
+    const first = list[0];
+    const firstBase = first.url && first.url.startsWith('http') ? first.url : `./${dir}/${first.name}`;
+    const firstSafe = firstBase.startsWith('http') ? firstBase : encodeURI(firstBase);
+    selectItem(first.name, firstSafe);
+  }
   current = 0; updateUI(); startAuto();
 }
 
