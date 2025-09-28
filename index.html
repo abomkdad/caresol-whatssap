@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>اضغط على الصورة لاختيار المنتج</title>
+    <title>معرض المنتجات - اطلب بنقرة واحدة</title>
     <style>
         /* التنسيقات (CSS) */
         body {
             font-family: 'Arial', sans-serif;
             background-color: #f8f8f8;
             padding: 20px;
+            text-align: center;
         }
         .container {
-            max-width: 650px;
+            max-width: 800px;
             margin: auto;
             background: #fff;
             padding: 30px;
@@ -20,275 +21,162 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
         h2 {
-            text-align: center;
             color: #333;
-            margin-bottom: 25px;
+            margin-bottom: 5px;
         }
-        h3 {
+        p.subtitle {
             color: #4CAF50;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
-            margin-top: 25px;
-            margin-bottom: 15px;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 30px;
         }
 
-        /* تنسيقات اختيار المنتجات */
+        /* تنسيقات معرض الصور */
         .product-grid {
+            /* تصميم شبكي لعرض المنتجات في صفوف وأعمدة */
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
         }
+        
+        /* تفعيل الصورة كزر */
         .product-item {
-            position: relative;
             text-align: center;
-            padding: 5px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
+            border: 3px solid #ddd;
+            border-radius: 10px;
+            overflow: hidden;
             cursor: pointer;
             transition: all 0.3s;
+            position: relative;
         }
+        
+        .product-item:hover {
+            border-color: #25D366; /* لون واتساب عند التحويم */
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.6);
+            transform: scale(1.03);
+        }
+        
         .product-item img {
             width: 100%;
             height: auto;
-            border-radius: 6px;
             display: block;
-        }
-        .product-item label {
-            display: block;
-            margin-top: 8px;
-            font-weight: bold;
-            font-size: 0.9em;
-            color: #555;
-        }
-        /* تأثير عند الاختيار */
-        .product-item.selected {
-            border-color: #25D366; 
-            background-color: #e6ffe6;
-            box-shadow: 0 0 10px rgba(37, 211, 102, 0.5);
-        }
-        .product-item input[type="checkbox"] {
-            display: none; 
         }
         
-        /* تنسيقات النموذج */
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .form-group label {
+        /* زر "اطلب الآن" الذي يظهر فوق الصورة أو تحتها */
+        .order-button {
             display: block;
-            margin-bottom: 5px;
-            font-weight: 500;
-        }
-        .form-group input, .form-group textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            box-sizing: border-box;
-            transition: border-color 0.3s;
-        }
-        .form-group input:focus, .form-group textarea:focus {
-            border-color: #25D366;
-            outline: none;
-        }
-        
-        /* تنسيقات زر الإرسال */
-        .submit-btn {
             background-color: #25D366;
             color: white;
-            padding: 15px 20px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 1.1em;
-            width: 100%;
-            margin-top: 20px;
-            transition: background-color 0.3s;
+            padding: 10px 0;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 1em;
         }
-        .submit-btn:hover {
-            background-color: #1FAF51;
-        }
+        
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>اضغط على الصورة لاختيار المنتج</h2>
+    <h2>معرض المنتجات السريعة</h2>
+    <p class="subtitle">اضغط على صورة المنتج لتحصل على العرض مباشرةً عبر واتساب!</p>
 
-    <form id="whatsappForm">
-        <h3>اضغط على الصورة  </h3>
-        <p style="font-size: 0.9em; color: #777;">(اضغط على الصورة لاختيار المنتج. يمكنك اختيار أكثر من منتج.)</p>
+    <div class="product-grid">
+        <div class="product-item" onclick="window.open(getOrderLink('Amoria'), '_self')">
+            <img src="images/amoria.png" alt="Amoria">
+            <span class="order-button">أطلب عرض Amoria</span>
+        </div>
         
-        <div class="product-grid">
-            <div class="product-item" data-product-name="amoria">
-                <img src="images/amoria.png" alt="Amoria">
-                <label>Amoria</label>
-                <input type="checkbox" name="products" value="Amoria">
-            </div>
-            
-            <div class="product-item" data-product-name="berlin">
-                <img src="images/berlin.png" alt="Berlin">
-                <label>Berlin</label>
-                <input type="checkbox" name="products" value="Berlin">
-            </div>
-
-            <div class="product-item" data-product-name="havana">
-                <img src="images/havana.png" alt="Havana">
-                <label>Havana</label>
-                <input type="checkbox" name="products" value="Havana">
-            </div>
-
-            <div class="product-item" data-product-name="marvel">
-                <img src="images/marvel.png" alt="Marvel">
-                <label>Marvel</label>
-                <input type="checkbox" name="products" value="Marvel">
-            </div>
-
-            <div class="product-item" data-product-name="norma">
-                <img src="images/norma.png" alt="Norma">
-                <label>Norma</label>
-                <input type="checkbox" name="products" value="Norma">
-            </div>
-            
-            <div class="product-item" data-product-name="sofia">
-                <img src="images/sofia.png" alt="Sofia">
-                <label>Sofia</label>
-                <input type="checkbox" name="products" value="Sofia">
-            </div>
-            
-            <div class="product-item" data-product-name="boos and ledy">
-                <img src="images/boos and ledy.png" alt="Boos and Ledy">
-                <label>Boos and Ledy</label>
-                <input type="checkbox" name="products" value="Boos and Ledy">
-            </div>
-            
-            <div class="product-item" data-product-name="p107">
-                <img src="images/p107.png" alt="P107">
-                <label>P107</label>
-                <input type="checkbox" name="products" value="P107">
-            </div>
-            
-            <div class="product-item" data-product-name="miami">
-                <img src="images/miami.png" alt="Miami">
-                <label>Miami</label>
-                <input type="checkbox" name="products" value="Miami">
-            </div>
-            
-            <div class="product-item" data-product-name="pairs">
-                <img src="images/pairs.png" alt="Pairs">
-                <label>Pairs</label>
-                <input type="checkbox" name="products" value="Pairs">
-            </div>
-            
-            <div class="product-item" data-product-name="vagas">
-                <img src="images/vagas.png" alt="Vagas">
-                <label>Vagas</label>
-                <input type="checkbox" name="products" value="Vagas">
-            </div>
-            
-            <div class="product-item" data-product-name="w183">
-                <img src="images/w183.png" alt="W183">
-                <label>W183</label>
-                <input type="checkbox" name="products" value="W183">
-            </div>
-            
+        <div class="product-item" onclick="window.open(getOrderLink('Berlin'), '_self')">
+            <img src="images/berlin.png" alt="Berlin">
+            <span class="order-button">أطلب عرض Berlin</span>
         </div>
 
-        <h3>اضغط على الصورة لاختيار المنتج</h3>
-        <div class="form-group">
-            <label for="customerName">الاسم:</label>
-            <input type="text" id="customerName" required>
-        </div>
-        <div class="form-group">
-            <label for="phoneNumber">رقم التليفون:</label>
-            <input type="tel" id="phoneNumber" placeholder="أدخل رقمك المحلي" required>
-        </div>
-        <div class="form-group">
-            <label for="address">العنوان:</label>
-            <input type="text" id="address" required>
-        </div>
-        <div class="form-group">
-            <label for="notes">ملاحظات إضافية:</label>
-            <textarea id="notes" rows="3"></textarea>
+        <div class="product-item" onclick="window.open(getOrderLink('Havana'), '_self')">
+            <img src="images/havana.png" alt="Havana">
+            <span class="order-button">أطلب عرض Havana</span>
         </div>
 
-        <button type="submit" class="submit-btn">إرسال الطلب إلى واتساب</button>
-    </form>
+        <div class="product-item" onclick="window.open(getOrderLink('Marvel'), '_self')">
+            <img src="images/marvel.png" alt="Marvel">
+            <span class="order-button">أطلب عرض Marvel</span>
+        </div>
+
+        <div class="product-item" onclick="window.open(getOrderLink('Norma'), '_self')">
+            <img src="images/norma.png" alt="Norma">
+            <span class="order-button">أطلب عرض Norma</span>
+        </div>
+        
+        <div class="product-item" onclick="window.open(getOrderLink('Sofia'), '_self')">
+            <img src="images/sofia.png" alt="Sofia">
+            <span class="order-button">أطلب عرض Sofia</span>
+        </div>
+        
+        <div class="product-item" onclick="window.open(getOrderLink('Boos and Ledy'), '_self')">
+            <img src="images/boos and ledy.png" alt="Boos and Ledy">
+            <span class="order-button">أطلب عرض Boos and Ledy</span>
+        </div>
+        
+        <div class="product-item" onclick="window.open(getOrderLink('P107'), '_self')">
+            <img src="images/p107.png" alt="P107">
+            <span class="order-button">أطلب عرض P107</span>
+        </div>
+        
+        <div class="product-item" onclick="window.open(getOrderLink('Miami'), '_self')">
+            <img src="images/miami.png" alt="Miami">
+            <span class="order-button">أطلب عرض Miami</span>
+        </div>
+        
+        <div class="product-item" onclick="window.open(getOrderLink('Pairs'), '_self')">
+            <img src="images/pairs.png" alt="Pairs">
+            <span class="order-button">أطلب عرض Pairs</span>
+        </div>
+        
+        <div class="product-item" onclick="window.open(getOrderLink('Vagas'), '_self')">
+            <img src="images/vagas.png" alt="Vagas">
+            <span class="order-button">أطلب عرض Vagas</span>
+        </div>
+        
+        <div class="product-item" onclick="window.open(getOrderLink('W183'), '_self')">
+            <img src="images/w183.png" alt="W183">
+            <span class="order-button">أطلب عرض W183</span>
+        </div>
+        
+    </div>
+
+    <a href="javascript:alert('الرجاء اختيار المنتج المطلوب من الصور أعلاه!');" class="order-button" 
+       style="margin-top: 30px; font-size: 1.2em; padding: 15px; border-radius: 8px; max-width: 300px; display: inline-block;">
+        للحصول على العرض (اضغط على الصورة)
+    </a>
+
 </div>
 
 <script>
     // **1. إعدادات الواتساب:**
     // ********************************************************
-    // تم ضبط رقم الواتساب الخاص بك هنا (بصيغة دولية بدون +)
+    // رقم الواتساب الذي سيستقبل الطلبات (بصيغة دولية بدون +)
     const whatsappNumber = "972522511749"; 
     // ********************************************************
 
+    /**
+     * تُنشئ رابط واتساب جاهز برسالة الطلب للمنتج المحدد.
+     * @param {string} productName - اسم المنتج (العرض).
+     * @returns {string} - رابط واتساب URL.
+     */
+    function getOrderLink(productName) {
+        // بناء رسالة واتساب
+        let message = `مرحباً، أنا مهتم بالحصول على العرض التالي:\n\n`;
+        message += `*اسم العرض/المنتج:* ${productName}\n\n`;
+        message += `الرجاء تزويدي بالتفاصيل وطريقة الطلب.`;
+        
+        // ترميز الرسالة
+        const encodedMessage = encodeURIComponent(message);
 
-    document.addEventListener('DOMContentLoaded', () => {
-        // وظيفة التفاعل مع النقر على الصور
-        const productItems = document.querySelectorAll('.product-item');
-        productItems.forEach(item => {
-            item.addEventListener('click', function() {
-                const checkbox = this.querySelector('input[type="checkbox"]');
-                checkbox.checked = !checkbox.checked;
-                this.classList.toggle('selected', checkbox.checked);
-            });
-            const checkbox = item.querySelector('input[type="checkbox"]');
-             if (checkbox.checked) {
-                item.classList.add('selected');
-             } else {
-                item.classList.remove('selected');
-             }
-        });
-
-        // وظيفة إرسال البيانات إلى واتساب
-        document.getElementById('whatsappForm').addEventListener('submit', function(event) {
-            event.preventDefault(); 
-
-            // جمع بيانات الزبون
-            const name = document.getElementById('customerName').value;
-            const phone = document.getElementById('phoneNumber').value; 
-            const address = document.getElementById('address').value;
-            const notes = document.getElementById('notes').value;
-            
-            // جمع المنتجات المختارة
-            const selectedProducts = Array.from(document.querySelectorAll('input[name="products"]:checked'))
-                                          .map(checkbox => checkbox.value) 
-                                          .join('، '); 
-
-            // التحقق من الحقول المطلوبة
-            if (!name || !phone || !address) {
-                alert("الرجاء ملء جميع حقول معلومات الزبون المطلوبة.");
-                return;
-            }
-
-            if (selectedProducts.length === 0) {
-                alert("الرجاء اختيار منتج واحد على الأقل.");
-                return;
-            }
-
-            // بناء رسالة واتساب
-            let message = `*طلب جديد عبر الموقع الإلكتروني*\n`;
-            message += `------------------------------------\n`;
-            message += `*المنتجات المطلوبة:* ${selectedProducts}\n`;
-            message += `------------------------------------\n`;
-            message += `*اسم الزبون:* ${name}\n`;
-            message += `*رقم التليفون (عادي):* ${phone}\n`;
-            message += `*العنوان:* ${address}\n`;
-            if (notes) {
-                 message += `*ملاحظات إضافية:* ${notes}\n`;
-            }
-            
-            // ترميز الرسالة
-            const encodedMessage = encodeURIComponent(message);
-
-            // إنشاء رابط واتساب المباشر
-            const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
-
-            // فتح الرابط
-            window.open(whatsappUrl, '_blank');
-        });
-    });
+        // إنشاء رابط واتساب المباشر
+        const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+        
+        return whatsappUrl;
+    }
 </script>
 
 </body>
