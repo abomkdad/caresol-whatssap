@@ -67,17 +67,32 @@
 const YOUR_WHATSAPP_NUMBER = "972522511749";
 let selected = null;
 let current = 0;
-const images = ["001.webp","002.jpg","003.png"];
 let autoTimer=null;
 
-function renderSlides(){
+const images = [
+  "amoria.png",
+  "berlin.png",
+  "boos and ledy.png",
+  "havana.png",
+  "marvel.png",
+  "miami.png",
+  "norma.png",
+  "p107.png",
+  "pairs.png",
+  "sofia.png",
+  "vagas.png",
+  "w183.png"
+];
+
+async function renderSlides(){
   const slides=document.getElementById('slides');
   const dots=document.getElementById('dots');
   slides.innerHTML='';
   dots.innerHTML='';
+
   images.forEach((file,i)=>{
-    const name=file.split('.')[0];
-    const url=`./images/${file}`;
+    const url = `./images/${file}`;
+    const name = file;
     const div=document.createElement('div');
     div.className='slide';
     div.innerHTML=`<img src="${url}" alt="${name}"><div class='caption'><span>${name}</span><button class='choose' onclick="selectItem('${name}','${url}')">اختيار</button></div>`;
@@ -101,7 +116,7 @@ function nextSlide(){goToSlide(current+1)}
 
 function startAuto(){
   if(autoTimer) clearInterval(autoTimer);
-  autoTimer=setInterval(()=>{nextSlide()},2000); // move quickly every 2 seconds
+  autoTimer=setInterval(()=>{nextSlide()},2000);
 }
 
 function selectItem(name,url){
