@@ -67,7 +67,7 @@
 const YOUR_WHATSAPP_NUMBER = "972522511749";
 let selected = null;
 let current = 0;
-let autoTimer=null;
+let autoTimer = null;
 
 const images = [
   "amoria.png",
@@ -84,7 +84,7 @@ const images = [
   "w183.png"
 ];
 
-async function renderSlides(){
+function renderSlides(){
   const slides=document.getElementById('slides');
   const dots=document.getElementById('dots');
   slides.innerHTML='';
@@ -110,11 +110,10 @@ function updateUI(){
   const total = document.querySelectorAll('.slide').length || images.length;
   document.getElementById('slides').style.transform=`translateX(-${current*100}%)`;
   [...document.querySelectorAll('.dot')].forEach((d,i)=>{d.classList.toggle('active',i===current)});
-  // clamp current within range
   if(current>=total) current=0;
-}%)`;
-  [...document.querySelectorAll('.dot')].forEach((d,i)=>{d.classList.toggle('active',i===current)});
+  if(current<0) current=total-1;
 }
+
 function goToSlide(i){current=(i+images.length)%images.length;updateUI();}
 function prevSlide(){goToSlide(current-1)}
 function nextSlide(){goToSlide(current+1)}
