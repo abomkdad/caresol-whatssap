@@ -77,7 +77,7 @@
 <script>
 // إعدادات
 const YOUR_WHATSAPP_NUMBER = "972522511749"; // بدون إشارة +
-const IMAGES_MANIFEST = "./Image/images.json"; // مجلد الصور اسمُه 'Image' (I كبيرة)
+const IMAGES_MANIFEST = "./Images/images.json"; // مجلد الصور اسمُه 'Images' (I كبيرة + s)
 
 let selected = null;
 let current = 0;
@@ -97,13 +97,18 @@ async function loadImages(){
     }
     return data; // مثال: ["file1.png","file2.jpg"]
   }catch(err){
-    warn.innerHTML = '⚠️ <span class="warn">تعذّر تحميل Image/images.json — أنشئه بقائمة أسماء الملفات.</span>';
+    warn.innerHTML = '⚠️ <span class="warn">تعذّر تحميل Images/images.json — أنشئه بقائمة أسماء الملفات.</span>';
     return [];
   }
 }
 
 async function renderSlides(){
-  images = await loadImages();
+  let data = await loadImages();
+  images = (Array.isArray(data)? data: []).map(it => {
+    if (typeof it === 'string') return it;
+    if (it && typeof it === 'object' && it.url) return it.url;
+    return null;
+  }).filter(Boolean);
   const slides = document.getElementById('slides');
   const dots = document.getElementById('dots');
   slides.innerHTML = '';
@@ -111,7 +116,7 @@ async function renderSlides(){
 
   images.forEach((file, i) => {
     const clean = (file||'').replace(/^\.\/?/, '');
-    const url = clean.startsWith('Image/') ? `./${clean}` : `./Image/${clean}`; // نضمن استخدام مجلد Image
+    const url = clean.startsWith('Images/') ? `./${clean}` : `./Images/${clean}`; // نضمن استخدام مجلد Image
     const name = clean.split('/').pop(); // يستخدم الاسم كما هو (مع الامتداد)
 
     const div = document.createElement('div');
@@ -130,7 +135,7 @@ async function renderSlides(){
     dots.appendChild(dot);
   });
 
-  if(images.length){ selectItem(images[0], images[0].startsWith('Image/')? `./${images[0]}` : `./Image/${images[0]}`); }
+  if(images.length){ selectItem(images[0], images[0].startsWith('Images/')? `./${images[0]}` : `./Images/${images[0]}`); }
   updateUI();
   startAuto();
 }
