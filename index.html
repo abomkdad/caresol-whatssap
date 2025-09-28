@@ -1,40 +1,227 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>طلب واتساب — MAD Perfumeur</title>
-  <style>
-    body{margin:0;background:#0f1115;color:#e7ecf3;font-family:system-ui,-apple-system,"Noto Sans Arabic",Tahoma,Arial,sans-serif}
-    .container{max-width:900px;margin:auto;padding:18px}
-    h1{margin:0 0 12px 0}
-    .carousel{position:relative;overflow:hidden;border-radius:16px;border:1px solid #202635;margin-bottom:20px;background:#0e1219}
-    .slides{display:flex;transition:transform .5s ease-in-out}
-    .slide{flex:0 0 100%;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center}
-    .slide img{width:100%;height:100%;object-fit:cover}
-    .caption{position:absolute;bottom:8px;left:8px;right:8px;background:rgba(0,0,0,.45);padding:6px 10px;border-radius:10px;display:flex;justify-content:space-between;align-items:center}
-    .choose{background:linear-gradient(180deg,#22c55e,#10b981);border:none;padding:4px 8px;border-radius:8px;font-weight:700;cursor:pointer}
-    .navBtn{position:absolute;top:50%;transform:translateY(-50%);background:#131823;border:1px solid #243146;border-radius:50%;width:40px;height:40px;color:#fff;cursor:pointer}
-    .prev{left:10px}.next{right:10px}
-    .dots{position:absolute;bottom:12px;left:0;right:0;display:flex;justify-content:center;gap:6px}
-    .dot{width:10px;height:10px;border-radius:50%;background:#444;cursor:pointer}
-    .dot.active{background:#22c55e}
-    .card{background:#161a22;border:1px solid #20283a;border-radius:18px;padding:16px}
-    .field{margin:10px 0;display:flex;flex-direction:column;gap:6px}
-    .input,button,textarea{border:1px solid #253043;background:#0f1420;color:#e7ecf3;padding:12px;border-radius:12px;font-size:15px}
-    .submit{background:linear-gradient(180deg,#22c55e,#10b981);font-weight:700;cursor:pointer;border:none}
-    .muted{color:#9aa3b2;font-size:12px;margin-top:8px}
-    .tag{border:1px dashed #2a3548;padding:4px 8px;border-radius:999px;font-size:12px;color:#b3bdcc}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نموذج طلب عبر واتساب</title>
+    <style>
+        /* يمكنك إضافة تنسيقات CSS هنا لتحسين شكل الصفحة والنموذج */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .product-selection {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+        }
+        .product-item {
+            text-align: center;
+            border: 2px solid transparent;
+            border-radius: 4px;
+            padding: 5px;
+            cursor: pointer;
+        }
+        .product-item.selected {
+            border-color: #25D366; /* لون واتساب الأخضر */
+            background-color: #e6ffe6;
+        }
+        .product-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 4px;
+        }
+        .product-item label {
+            margin-top: 5px;
+            display: block;
+            font-size: 0.9em;
+        }
+        .product-item input[type="checkbox"] {
+            display: none; /* إخفاء مربع الاختيار الافتراضي */
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .submit-btn {
+            background-color: #25D366;
+            color: white;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1.1em;
+            width: 100%;
+        }
+        .submit-btn:hover {
+            background-color: #1FAF51;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1>MAD Perfumeur</h1>
 
-    <section class="carousel">
-      <div class="slides" id="slides"></div>
-      <button class="navBtn prev" onclick="prevSlide()">❮</button>
-      <button class="navBtn next" onclick="nextSlide()">❯</button>
+<div class="container">
+    <h2 style="text-align: center;">نموذج طلب المنتجات وإرساله عبر واتساب</h2>
+
+    <div class="product-selection">
+        <h3>اختر المنتجات المطلوبة</h3>
+        <p style="font-size: 0.9em; color: #555;">(يمكنك اختيار أكثر من منتج)</p>
+        <form id="whatsappForm">
+            <div class="product-grid">
+                <div class="product-item" data-product-name="amoria">
+                    <img src="images/amoria.png" alt="amoria">
+                    <label for="amoria">amoria</label>
+                    <input type="checkbox" id="amoria" name="products" value="amoria.png">
+                </div>
+                <div class="product-item" data-product-name="berlin">
+                    <img src="images/berlin.png" alt="berlin">
+                    <label for="berlin">berlin</label>
+                    <input type="checkbox" id="berlin" name="products" value="berlin.png">
+                </div>
+                <div class="product-item" data-product-name="havana">
+                    <img src="images/havana.png" alt="havana">
+                    <label for="havana">havana</label>
+                    <input type="checkbox" id="havana" name="products" value="havana.png">
+                </div>
+                <div class="product-item" data-product-name="marvel">
+                    <img src="images/marvel.png" alt="marvel">
+                    <label for="marvel">marvel</label>
+                    <input type="checkbox" id="marvel" name="products" value="marvel.png">
+                </div>
+                <div class="product-item" data-product-name="norma">
+                    <img src="images/norma.png" alt="norma">
+                    <label for="norma">norma</label>
+                    <input type="checkbox" id="norma" name="products" value="norma.png">
+                </div>
+                <div class="product-item" data-product-name="sofia">
+                    <img src="images/sofia.png" alt="sofia">
+                    <label for="sofia">sofia</label>
+                    <input type="checkbox" id="sofia" name="products" value="sofia.png">
+                </div>
+                </div>
+    </div>
+
+    <h3>معلومات الزبون</h3>
+        <div class="form-group">
+            <label for="customerName">الاسم:</label>
+            <input type="text" id="customerName" required>
+        </div>
+        <div class="form-group">
+            <label for="phoneNumber">رقم التليفون (بالصيغة الدولية):</label>
+            <input type="tel" id="phoneNumber" placeholder="مثال: 9665xxxxxxxx" required>
+        </div>
+        <div class="form-group">
+            <label for="address">العنوان:</label>
+            <input type="text" id="address" required>
+        </div>
+        <div class="form-group">
+            <label for="notes">ملاحظات إضافية:</label>
+            <textarea id="notes" rows="3"></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn" onclick="sendToWhatsApp(event)">إرسال الطلب إلى واتساب</button>
+    </form>
+</div>
+
+<script>
+    // **1. تحديد رقم الواتساب**
+    // ********************************************************
+    // **مهم:** ضع رقم الواتساب الذي تريد استقبال الطلبات عليه هنا.
+    // يجب أن يكون بالصيغة الدولية وبدون علامة الزائد (+) أو الأصفار القيادية.
+    // مثال: 966501234567 لرقم سعودي
+    const whatsappNumber = "رقم_الواتساب_هنا"; 
+    // ********************************************************
+
+    // **2. وظيفة التعامل مع اختيار المنتجات**
+    document.addEventListener('DOMContentLoaded', () => {
+        const productItems = document.querySelectorAll('.product-item');
+        productItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const checkbox = this.querySelector('input[type="checkbox"]');
+                checkbox.checked = !checkbox.checked;
+                this.classList.toggle('selected', checkbox.checked);
+            });
+        });
+    });
+
+    // **3. وظيفة إرسال البيانات إلى واتساب**
+    function sendToWhatsApp(event) {
+        event.preventDefault(); // منع الإرسال الافتراضي للنموذج
+
+        // جمع بيانات الزبون
+        const name = document.getElementById('customerName').value;
+        const phone = document.getElementById('phoneNumber').value;
+        const address = document.getElementById('address').value;
+        const notes = document.getElementById('notes').value;
+        
+        // جمع المنتجات المختارة
+        const selectedProducts = Array.from(document.querySelectorAll('input[name="products"]:checked'))
+                                      .map(checkbox => checkbox.value.replace('.png', '')) // نأخذ اسم المنتج فقط
+                                      .join('، '); // فصل المنتجات بفارزة
+
+        // التأكد من ملء الحقول المطلوبة واختيار منتج واحد على الأقل
+        if (!name || !phone || !address) {
+            alert("الرجاء ملء جميع حقول معلومات الزبون المطلوبة.");
+            return;
+        }
+
+        if (selectedProducts.length === 0) {
+            alert("الرجاء اختيار منتج واحد على الأقل.");
+            return;
+        }
+
+        // بناء رسالة واتساب (باستخدام ترميز URL)
+        let message = `*طلب جديد عبر الموقع الإلكتروني*\n\n`;
+        message += `*المنتجات المطلوبة:* ${selectedProducts}\n`;
+        message += `------------------------------------\n`;
+        message += `*اسم الزبون:* ${name}\n`;
+        message += `*رقم التليفون:* ${phone}\n`;
+        message += `*العنوان:* ${address}\n`;
+        if (notes) {
+             message += `*ملاحظات إضافية:* ${notes}\n`;
+        }
+        
+        // ترميز الرسالة لاستخدامها في رابط URL (تحويل الأحرف العربية والرموز لكي تظهر بشكل صحيح في الرابط)
+        const encodedMessage = encodeURIComponent(message);
+
+        // إنشاء رابط واتساب المباشر
+        const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+
+        // فتح الرابط في نافذة جديدة
+        window.open(whatsappUrl, '_blank');
+    }
+</script>
+
+</body>
+</html>      <button class="navBtn next" onclick="nextSlide()">❯</button>
       <div class="dots" id="dots"></div>
     </section>
 
