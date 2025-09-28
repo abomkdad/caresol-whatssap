@@ -3,83 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نموذج طلب عبر واتساب</title>
+    <title>نموذج طلب وإرسال عبر واتساب</title>
     <style>
-        /* يمكنك إضافة تنسيقات CSS هنا لتحسين شكل الصفحة والنموذج */
+        /* التنسيقات (CSS) مطابقة لتصميمك قدر الإمكان */
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f4f4f4;
-            color: #333;
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f8f8;
+            padding: 20px;
         }
         .container {
-            max-width: 600px;
+            max-width: 650px;
             margin: auto;
             background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
-        .product-selection {
-            margin-bottom: 20px;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 25px;
         }
+        h3 {
+            color: #4CAF50;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        /* تنسيقات اختيار المنتجات */
         .product-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 10px;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
         }
         .product-item {
+            position: relative;
             text-align: center;
-            border: 2px solid transparent;
-            border-radius: 4px;
             padding: 5px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
             cursor: pointer;
-        }
-        .product-item.selected {
-            border-color: #25D366; /* لون واتساب الأخضر */
-            background-color: #e6ffe6;
+            transition: all 0.3s;
         }
         .product-item img {
             width: 100%;
             height: auto;
+            border-radius: 6px;
             display: block;
-            border-radius: 4px;
         }
         .product-item label {
-            margin-top: 5px;
             display: block;
+            margin-top: 8px;
+            font-weight: bold;
             font-size: 0.9em;
+            color: #555;
+        }
+        /* تأثير عند الاختيار */
+        .product-item.selected {
+            border-color: #25D366; /* لون الواتساب الأخضر */
+            background-color: #e6ffe6;
+            box-shadow: 0 0 10px rgba(37, 211, 102, 0.5);
         }
         .product-item input[type="checkbox"] {
             display: none; /* إخفاء مربع الاختيار الافتراضي */
         }
+        
+        /* تنسيقات النموذج */
         .form-group {
             margin-bottom: 15px;
         }
         .form-group label {
             display: block;
             margin-bottom: 5px;
-            font-weight: bold;
+            font-weight: 500;
         }
         .form-group input, .form-group textarea {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             border: 1px solid #ccc;
-            border-radius: 4px;
+            border-radius: 6px;
             box-sizing: border-box;
+            transition: border-color 0.3s;
         }
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: #25D366;
+            outline: none;
+        }
+        
+        /* تنسيقات زر الإرسال */
         .submit-btn {
             background-color: #25D366;
             color: white;
             padding: 15px 20px;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
             font-size: 1.1em;
             width: 100%;
+            margin-top: 20px;
+            transition: background-color 0.3s;
         }
         .submit-btn:hover {
             background-color: #1FAF51;
@@ -89,47 +113,52 @@
 <body>
 
 <div class="container">
-    <h2 style="text-align: center;">نموذج طلب المنتجات وإرساله عبر واتساب</h2>
+    <h2>نموذج طلب وإرساله عبر واتساب</h2>
 
-    <div class="product-selection">
+    <form id="whatsappForm">
         <h3>اختر المنتجات المطلوبة</h3>
-        <p style="font-size: 0.9em; color: #555;">(يمكنك اختيار أكثر من منتج)</p>
-        <form id="whatsappForm">
-            <div class="product-grid">
-                <div class="product-item" data-product-name="amoria">
-                    <img src="images/amoria.png" alt="amoria">
-                    <label for="amoria">amoria</label>
-                    <input type="checkbox" id="amoria" name="products" value="amoria.png">
-                </div>
-                <div class="product-item" data-product-name="berlin">
-                    <img src="images/berlin.png" alt="berlin">
-                    <label for="berlin">berlin</label>
-                    <input type="checkbox" id="berlin" name="products" value="berlin.png">
-                </div>
-                <div class="product-item" data-product-name="havana">
-                    <img src="images/havana.png" alt="havana">
-                    <label for="havana">havana</label>
-                    <input type="checkbox" id="havana" name="products" value="havana.png">
-                </div>
-                <div class="product-item" data-product-name="marvel">
-                    <img src="images/marvel.png" alt="marvel">
-                    <label for="marvel">marvel</label>
-                    <input type="checkbox" id="marvel" name="products" value="marvel.png">
-                </div>
-                <div class="product-item" data-product-name="norma">
-                    <img src="images/norma.png" alt="norma">
-                    <label for="norma">norma</label>
-                    <input type="checkbox" id="norma" name="products" value="norma.png">
-                </div>
-                <div class="product-item" data-product-name="sofia">
-                    <img src="images/sofia.png" alt="sofia">
-                    <label for="sofia">sofia</label>
-                    <input type="checkbox" id="sofia" name="products" value="sofia.png">
-                </div>
-                </div>
-    </div>
+        <p style="font-size: 0.9em; color: #777;">(اضغط على الصورة لاختيار المنتج. يمكنك اختيار أكثر من منتج.)</p>
+        
+        <div class="product-grid">
+            <div class="product-item" data-product-name="amoria">
+                <img src="images/amoria.png" alt="Amoria">
+                <label>Amoria</label>
+                <input type="checkbox" name="products" value="Amoria">
+            </div>
+            
+            <div class="product-item" data-product-name="berlin">
+                <img src="images/berlin.png" alt="Berlin">
+                <label>Berlin</label>
+                <input type="checkbox" name="products" value="Berlin">
+            </div>
 
-    <h3>معلومات الزبون</h3>
+            <div class="product-item" data-product-name="havana">
+                <img src="images/havana.png" alt="Havana">
+                <label>Havana</label>
+                <input type="checkbox" name="products" value="Havana">
+            </div>
+
+            <div class="product-item" data-product-name="marvel">
+                <img src="images/marvel.png" alt="Marvel">
+                <label>Marvel</label>
+                <input type="checkbox" name="products" value="Marvel">
+            </div>
+
+            <div class="product-item" data-product-name="norma">
+                <img src="images/norma.png" alt="Norma">
+                <label>Norma</label>
+                <input type="checkbox" name="products" value="Norma">
+            </div>
+            
+            <div class="product-item" data-product-name="sofia">
+                <img src="images/sofia.png" alt="Sofia">
+                <label>Sofia</label>
+                <input type="checkbox" name="products" value="Sofia">
+            </div>
+
+            </div>
+
+        <h3>معلومات الزبون</h3>
         <div class="form-group">
             <label for="customerName">الاسم:</label>
             <input type="text" id="customerName" required>
@@ -147,301 +176,87 @@
             <textarea id="notes" rows="3"></textarea>
         </div>
 
-        <button type="submit" class="submit-btn" onclick="sendToWhatsApp(event)">إرسال الطلب إلى واتساب</button>
+        <button type="submit" class="submit-btn">إرسال الطلب إلى واتساب</button>
     </form>
 </div>
 
 <script>
-    // **1. تحديد رقم الواتساب**
+    // **1. إعدادات الواتساب:**
     // ********************************************************
     // **مهم:** ضع رقم الواتساب الذي تريد استقبال الطلبات عليه هنا.
     // يجب أن يكون بالصيغة الدولية وبدون علامة الزائد (+) أو الأصفار القيادية.
     // مثال: 966501234567 لرقم سعودي
-    const whatsappNumber = "رقم_الواتساب_هنا"; 
+    const whatsappNumber = "ضع_رقمك_هنا_بدون_زائد"; 
     // ********************************************************
 
-    // **2. وظيفة التعامل مع اختيار المنتجات**
+
+    // **2. وظيفة التفاعل مع اختيار الصور (لتحويل النقر على الصورة إلى اختيار)**
     document.addEventListener('DOMContentLoaded', () => {
         const productItems = document.querySelectorAll('.product-item');
         productItems.forEach(item => {
             item.addEventListener('click', function() {
                 const checkbox = this.querySelector('input[type="checkbox"]');
-                checkbox.checked = !checkbox.checked;
-                this.classList.toggle('selected', checkbox.checked);
+                checkbox.checked = !checkbox.checked; // عكس حالة الاختيار
+                this.classList.toggle('selected', checkbox.checked); // تبديل فئة التنسيق
             });
+            // لتجنب فقدان حالة الاختيار إذا ضغط المستخدم خارج الصورة
+            const checkbox = item.querySelector('input[type="checkbox"]');
+             if (checkbox.checked) {
+                item.classList.add('selected');
+             } else {
+                item.classList.remove('selected');
+             }
+        });
+
+        // **3. وظيفة إرسال البيانات عند الضغط على الزر**
+        document.getElementById('whatsappForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // منع الإرسال الافتراضي للنموذج
+
+            // جمع بيانات الزبون
+            const name = document.getElementById('customerName').value;
+            const phone = document.getElementById('phoneNumber').value;
+            const address = document.getElementById('address').value;
+            const notes = document.getElementById('notes').value;
+            
+            // جمع المنتجات المختارة
+            const selectedProducts = Array.from(document.querySelectorAll('input[name="products"]:checked'))
+                                          .map(checkbox => checkbox.value) 
+                                          .join('، '); // فصل المنتجات بفارزة
+
+            // التحقق من الحقول المطلوبة
+            if (!name || !phone || !address) {
+                alert("الرجاء ملء جميع حقول معلومات الزبون (الاسم، رقم التليفون، العنوان).");
+                return;
+            }
+
+            if (selectedProducts.length === 0) {
+                alert("الرجاء اختيار منتج واحد على الأقل.");
+                return;
+            }
+
+            // بناء رسالة واتساب (استخدام %0A لسطر جديد و * للتنسيق الغامق)
+            let message = `*طلب جديد عبر الموقع الإلكتروني*\n`;
+            message += `------------------------------------\n`;
+            message += `*المنتجات المطلوبة:* ${selectedProducts}\n`;
+            message += `------------------------------------\n`;
+            message += `*اسم الزبون:* ${name}\n`;
+            message += `*رقم التليفون:* ${phone}\n`;
+            message += `*العنوان:* ${address}\n`;
+            if (notes) {
+                 message += `*ملاحظات إضافية:* ${notes}\n`;
+            }
+            
+            // ترميز الرسالة لاستخدامها في رابط URL
+            const encodedMessage = encodeURIComponent(message);
+
+            // إنشاء رابط واتساب المباشر
+            const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+
+            // فتح الرابط في نافذة جديدة
+            window.open(whatsappUrl, '_blank');
         });
     });
-
-    // **3. وظيفة إرسال البيانات إلى واتساب**
-    function sendToWhatsApp(event) {
-        event.preventDefault(); // منع الإرسال الافتراضي للنموذج
-
-        // جمع بيانات الزبون
-        const name = document.getElementById('customerName').value;
-        const phone = document.getElementById('phoneNumber').value;
-        const address = document.getElementById('address').value;
-        const notes = document.getElementById('notes').value;
-        
-        // جمع المنتجات المختارة
-        const selectedProducts = Array.from(document.querySelectorAll('input[name="products"]:checked'))
-                                      .map(checkbox => checkbox.value.replace('.png', '')) // نأخذ اسم المنتج فقط
-                                      .join('، '); // فصل المنتجات بفارزة
-
-        // التأكد من ملء الحقول المطلوبة واختيار منتج واحد على الأقل
-        if (!name || !phone || !address) {
-            alert("الرجاء ملء جميع حقول معلومات الزبون المطلوبة.");
-            return;
-        }
-
-        if (selectedProducts.length === 0) {
-            alert("الرجاء اختيار منتج واحد على الأقل.");
-            return;
-        }
-
-        // بناء رسالة واتساب (باستخدام ترميز URL)
-        let message = `*طلب جديد عبر الموقع الإلكتروني*\n\n`;
-        message += `*المنتجات المطلوبة:* ${selectedProducts}\n`;
-        message += `------------------------------------\n`;
-        message += `*اسم الزبون:* ${name}\n`;
-        message += `*رقم التليفون:* ${phone}\n`;
-        message += `*العنوان:* ${address}\n`;
-        if (notes) {
-             message += `*ملاحظات إضافية:* ${notes}\n`;
-        }
-        
-        // ترميز الرسالة لاستخدامها في رابط URL (تحويل الأحرف العربية والرموز لكي تظهر بشكل صحيح في الرابط)
-        const encodedMessage = encodeURIComponent(message);
-
-        // إنشاء رابط واتساب المباشر
-        const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
-
-        // فتح الرابط في نافذة جديدة
-        window.open(whatsappUrl, '_blank');
-    }
 </script>
 
-</body>
-</html>      <button class="navBtn next" onclick="nextSlide()">❯</button>
-      <div class="dots" id="dots"></div>
-    </section>
-
-    <section class="card">
-      <h2>اطلب عبر واتساب</h2>
-      <div class="field">
-        <label>الصورة المختارة</label>
-        <div id="selectedTag"><span class="tag">لم يتم اختيار صورة بعد</span></div>
-      </div>
-      <div class="field"><label>الاسم الكامل</label><input id="fullname" class="input"></div>
-      <div class="field"><label>الهاتف</label><input id="phone" class="input"></div>
-      <div class="field"><label>العنوان</label><input id="address" class="input"></div>
-      <div class="field"><label>ملاحظات</label><textarea id="notes" class="input" rows="3"></textarea></div>
-      <button id="submitBtn" class="submit">إرسال عبر واتساب</button>
-      <div id="formNote" class="muted"></div>
-    </section>
-  </div>
-
-<script>
-const RAW_BASE = "https://raw.githubusercontent.com/abomkdad/caresol-whatssap/main/images/";
-const YOUR_WHATSAPP_NUMBER = "972522511749";
-
-// نفس الملفات اللي عندك في مجلد images
-const FILES = [
-  "amoria.png",
-  "berlin.png",
-  "boos and ledy.png",
-  "havana.png",
-  "marvel.png",
-  "miami.png",
-  "norma.png",
-  "p107.png",
-  "pairs.png",
-  "sofia.png",
-  "vagas.png",
-  "w183.png"
-];
-
-let current=0,autoTimer=null,selected=null;
-const nameNoExt=f=>f.replace(/\.[^.]+$/,'');
-
-function renderSlides(){
-  const slides=document.getElementById("slides");
-  const dots=document.getElementById("dots");
-  slides.innerHTML="";dots.innerHTML="";
-  FILES.forEach((file,i)=>{
-    const url=RAW_BASE+encodeURIComponent(file);
-    const name=nameNoExt(file);
-    const div=document.createElement("div");
-    div.className="slide";
-    div.innerHTML=`
-      <img src="${url}" alt="${name}" loading="lazy">
-      <div class="caption">
-        <span>${name}</span>
-        <button class="choose" onclick="selectItem('${name}','${url}')">اختيار</button>
-      </div>`;
-    slides.appendChild(div);
-    const dot=document.createElement("div");dot.className="dot";
-    dot.addEventListener("click",()=>goTo(i));dots.appendChild(dot);
-  });
-  selectItem(nameNoExt(FILES[0]),RAW_BASE+encodeURIComponent(FILES[0]));
-  updateUI();startAuto();
-}
-
-function updateUI(){
-  document.getElementById("slides").style.transform=`translateX(-${current*100}%)`;
-  [...document.querySelectorAll(".dot")].forEach((d,i)=>d.classList.toggle("active",i===current));
-}
-function goTo(i){current=(i+FILES.length)%FILES.length;updateUI();}
-function prevSlide(){goTo(current-1);}function nextSlide(){goTo(current+1);}
-function startAuto(){if(autoTimer)clearInterval(autoTimer);autoTimer=setInterval(nextSlide,2000);}
-function selectItem(name,url){selected={name,url};document.getElementById("selectedTag").innerHTML=`<span class="tag">${name}</span>`;}
-function sanitizePhone(v){return(v||"").replace(/\D+/g,"");}
-function submitWA(){
-  const fullname=document.getElementById("fullname").value.trim();
-  const phone=sanitizePhone(document.getElementById("phone").value);
-  const address=(document.getElementById("address").value||"").trim();
-  const notes=(document.getElementById("notes").value||"").trim();
-  const note=document.getElementById("formNote");
-  if(!selected){note.innerHTML="⚠️ اختر صورة أولاً.";return;}
-  if(!fullname||phone.length<8){note.innerHTML="⚠️ أدخل الاسم والهاتف بشكل صحيح.";return;}
-  const msg=`طلب جديد\nالاسم: ${fullname}\nالهاتف: ${phone}\nالعنوان: ${address||"-"}\nملاحظات: ${notes||"-"}\nالصورة: ${selected.name}\nالرابط: ${selected.url}`;
-  window.open(`https://wa.me/${YOUR_WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`,"_blank");
-  note.innerHTML="✅ تم فتح واتساب.";
-}
-document.getElementById("submitBtn").addEventListener("click",submitWA);
-renderSlides();
-</script>
-</body>
-</html>
-    <section class="carousel">
-      <div class="slides" id="slides"></div>
-      <button class="navBtn prev" onclick="prevSlide()" aria-label="السابق">❮</button>
-      <button class="navBtn next" onclick="nextSlide()" aria-label="التالي">❯</button>
-      <div class="dots" id="dots"></div>
-    </section>
-
-    <!-- WhatsApp Form -->
-    <section class="card">
-      <h2>اطلب عبر واتساب</h2>
-      <div class="field">
-        <label>الصورة المختارة</label>
-        <div id="selectedTag"><span class="tag">لم يتم اختيار صورة بعد</span></div>
-      </div>
-      <div class="field">
-        <label for="fullname">الاسم الكامل</label>
-        <input id="fullname" class="input" />
-      </div>
-      <div class="field">
-        <label for="phone">الهاتف</label>
-        <input id="phone" class="input" />
-      </div>
-      <div class="field">
-        <label for="address">العنوان</label>
-        <input id="address" class="input" />
-      </div>
-      <div class="field">
-        <label for="notes">ملاحظات</label>
-        <textarea id="notes" class="input" rows="3"></textarea>
-      </div>
-      <button id="submitBtn" class="submit">إرسال عبر واتساب</button>
-      <div id="formNote" class="muted"></div>
-    </section>
-  </div>
-
-<script>
-/* إعدادات */
-const YOUR_WHATSAPP_NUMBER = "972522511749"; // بدون +
-
-// <<< القائمة ثابتة طبقًا للصور الموجودة في لقطة شاشتك (مجلد images/) >>>
-const FILES = [
-  "amoria.png",
-  "berlin.png",
-  "boos and ledy.png",
-  "havana.png",
-  "marvel.png",
-  "miami.png",
-  "norma.png",
-  "p107.png",
-  "pairs.png",
-  "sofia.png",
-  "vagas.png",
-  "w183.png"
-];
-
-let current = 0, autoTimer = null, selected = null;
-
-// اسم بدون الامتداد
-const nameNoExt = f => f.replace(/\.[^.]+$/,'');
-
-// رسم الشرائح
-function renderSlides(){
-  const slides = document.getElementById("slides");
-  const dots   = document.getElementById("dots");
-  slides.innerHTML = ""; dots.innerHTML = "";
-
-  FILES.forEach((file, i) => {
-    const url  = `./images/${encodeURIComponent(file)}`;
-    const name = nameNoExt(file); // بدون .png
-    const div  = document.createElement("div");
-    div.className = "slide";
-    div.innerHTML = `
-      <img src="${url}" alt="${name}" loading="lazy">
-      <div class="caption">
-        <span>${name}</span>
-        <button class="choose" onclick="selectItem('${name}','${url}')">اختيار</button>
-      </div>`;
-    slides.appendChild(div);
-
-    const dot = document.createElement("div");
-    dot.className = "dot";
-    dot.addEventListener("click", () => goTo(i));
-    dots.appendChild(dot);
-  });
-
-  // اختيار افتراضي
-  selectItem(nameNoExt(FILES[0]), `./images/${encodeURIComponent(FILES[0])}`);
-  updateUI(); startAuto();
-}
-
-function updateUI(){
-  document.getElementById("slides").style.transform = `translateX(-${current*100}%)`;
-  [...document.querySelectorAll(".dot")].forEach((d,i)=>d.classList.toggle("active", i===current));
-}
-function goTo(i){ current = (i + FILES.length) % FILES.length; updateUI(); }
-function prevSlide(){ goTo(current - 1); }
-function nextSlide(){ goTo(current + 1); }
-function startAuto(){ if(autoTimer) clearInterval(autoTimer); autoTimer = setInterval(nextSlide, 2000); }
-
-function selectItem(name,url){
-  selected = { name, url };
-  document.getElementById("selectedTag").innerHTML = `<span class="tag">${name}</span>`;
-}
-function sanitizePhone(v){ return (v||"").replace(/\D+/g,""); }
-
-function submitWA(){
-  const fullname = document.getElementById("fullname").value.trim();
-  const phone    = sanitizePhone(document.getElementById("phone").value);
-  const address  = (document.getElementById("address").value || "").trim();
-  const notes    = (document.getElementById("notes").value || "").trim();
-  const note     = document.getElementById("formNote");
-
-  if(!selected){ note.innerHTML = "⚠️ اختر صورة أولاً."; return; }
-  if(!fullname || phone.length < 8){ note.innerHTML = "⚠️ أدخل الاسم والهاتف بشكل صحيح."; return; }
-
-  const msg =
-`طلب جديد من صفحة الهبوط
-الاسم: ${fullname}
-الهاتف: ${phone}
-العنوان: ${address || "-"}
-ملاحظات: ${notes || "-"}
-الصورة: ${selected.name}
-الرابط: ${location.origin + selected.url}`;
-
-  window.open(`https://wa.me/${YOUR_WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank");
-  note.innerHTML = "✅ تم فتح واتساب.";
-}
-
-document.getElementById("submitBtn").addEventListener("click", submitWA);
-renderSlides();
-</script>
 </body>
 </html>
