@@ -75,108 +75,130 @@
   </div>
 
 <script>
-// إعدادات
-const YOUR_WHATSAPP_NUMBER = "972522511749"; // بدون إشارة +
-const IMAGES_MANIFEST = "./images/images.json"; // مجلد الصور اسمُه 'Images' (I كبيرة + s)
+// =================== الإعدادات ===================
+const YOUR_WHATSAPP_NUMBER = "972522511749"; // بدون +
+// جرّب هذه المسارات تلقائياً: IMAGES / Images / images
+const CANDIDATE_DIRS = ['IMAGES','Images','images'];
+const BRANCH = 'main';
+// في حال لم نتمكن من استنتاج المالك/الريبو من صفحات GitHub، عيّنهم هنا (اختياري):
+const OWNER_OVERRIDE = ""; // مثال: "abomkdad"
+const REPO_OVERRIDE  = ""; // مثال: "caresol-whatssap"
 
 let selected = null;
 let current = 0;
 let autoTimer = null;
-let images = [];
+let totalSlides = 0;
 
-// تحميل أسماء الصور من ملف JSON داخل مجلد Image
-async function loadImages(){
-  const warn = document.getElementById('loadWarn');
-  try{
-    const res = await fetch(IMAGES_MANIFEST, { cache: 'no-store' });
-    if(!res.ok) throw new Error('manifest not found');
-    const data = await res.json();
-    if(!Array.isArray(data) || !data.length){
-      warn.innerHTML = '⚠️ <span class="warn">images.json فارغ داخل مجلد images.</span>';
-      return [];
-    }
-    return data; // مثال: ["file1.png","file2.jpg"]
-  }catch(err){
-    warn.innerHTML = '⚠️ <span class="warn">تعذّر تحميل images/images.json — أنشئه بقائمة أسماء الملفات.</span>';
-    return [];
-  }
+// =================== أدوات مساعدة ===================
+function sanitizePhone(v){ return (v||'').replace(/\D+/g,''); }
+function absoluteUrl(u){ try{ return new URL(u, location.href).href; }catch{return u} }
+
+function inferGitHub(){
+  // يعمل تلقائياً على GitHub Pages (user.github.io/repo)
+  if(OWNER_OVERRIDE && REPO_OVERRIDE) return {owner:OWNER_OVERRIDE, repo:REPO_OVERRIDE};
+  if(!location.hostname.endsWith('github.io')) return null;
+  const owner = location.hostname.split('.')[0];
+  const parts = location.pathname.split('/').filter(Boolean);
+  const repo  = parts[0] || '';
+  return owner && repo ? {owner, repo} : null;
 }
 
+async function listFromGitHubAPI(dir){
+  const gh = inferGitHub();
+  if(!gh) return [];
+  const url = `https://api.github.com/repos/${gh.owner}/${gh.repo}/contents/${dir}?ref=${BRANCH}`;
+  const res = await fetch(url, { headers: { 'Accept':'application/vnd.github.v3+json' } });
+  if(!res.ok) return [];
+  const data = await res.json();
+  if(!Array.isArray(data)) return [];
+  return data
+    .filter(it => it.type==='file' && /\.(png|jpe?g|webp|gif|svg)$/i.test(it.name))
+    .map(it => ({ name: it.name, url: it.download_url || it.path }));
+}
+
+async function listFromJSON(dir){
+  try{
+    const res = await fetch(`./${dir}/images.json`, { cache: 'no-store' });
+    if(!res.ok) return [];
+    const arr = await res.json();
+    if(!Array.isArray(arr) || !arr.length) return [];
+    return arr.map(x => (typeof x === 'string')
+      ? { name: x, url: `./${dir}/${x.replace(/^\.\/?/, '')}` }
+      : { name: x.name || x.url, url: `./${dir}/${(x.url||'').replace(/^\.\/?/, '')}` });
+  }catch{ return [] }
+}
+
+async function loadImages(){
+  const warn = document.getElementById('loadWarn');
+  for(const dir of CANDIDATE_DIRS){
+    let list = await listFromGitHubAPI(dir); // 1) GitHub API
+    if(list.length){ warn.textContent=''; return {dir,list}; }
+    list = await listFromJSON(dir);         // 2) images.json fallback
+    if(list.length){ warn.textContent=''; return {dir,list}; }
+  }
+  warn.innerHTML = '⚠️ لم يتم العثور على صور. أنشئ مجلد <b>IMAGES</b> أو <b>Images</b> أو <b>images</b>، أو ضع ملف <code>images.json</code> داخل أحدها.';
+  return {dir:null, list:[]};
+}
+
+// =================== عرض السلايدر ===================
 async function renderSlides(){
-  let data = await loadImages();
-  images = (Array.isArray(data)? data: []).map(it => {
-    if (typeof it === 'string') return it;
-    if (it && typeof it === 'object' && it.url) return it.url;
-    return null;
-  }).filter(Boolean);
+  const {dir, list} = await loadImages();
   const slides = document.getElementById('slides');
-  const dots = document.getElementById('dots');
+  const dots   = document.getElementById('dots');
   slides.innerHTML = '';
-  dots.innerHTML = '';
+  dots.innerHTML   = '';
 
-  images.forEach((file, i) => {
-    const clean = (file||'').replace(/^\.\/?/, '');
-    const url = clean.startsWith('images/') ? `./${clean}` : `./images/${clean}`; // نضمن استخدام مجلد Image
-    const name = clean.split('/').pop(); // يستخدم الاسم كما هو (مع الامتداد)
-
-    const div = document.createElement('div');
-    div.className = 'slide';
-    div.innerHTML = `
+  list.forEach((it,i)=>{
+    const url  = it.url.startsWith('http') ? it.url : `./${dir}/${it.url.replace(/^\.\/?/,'')}`;
+    const name = it.name; // استخدم اسم الملف كما هو
+    const wrap = document.createElement('div');
+    wrap.className = 'slide';
+    wrap.innerHTML = `
       <img src="${url}" alt="${name}">
       <div class="caption">
         <span>${name}</span>
-        <button class="choose" onclick="selectItem('${name}','${url}')">اختيار</button>
+        <button class="choose" onclick="selectItem('${name}','${absoluteUrl(url)}')">اختيار</button>
       </div>`;
-    slides.appendChild(div);
+    slides.appendChild(wrap);
 
     const dot = document.createElement('div');
-    dot.className = 'dot';
-    dot.addEventListener('click', () => goToSlide(i));
+    dot.className='dot';
+    dot.addEventListener('click',()=>goToSlide(i));
     dots.appendChild(dot);
   });
 
-  if(images.length){ selectItem(images[0], images[0].startsWith('images/')? `./${images[0]}` : `./images/${images[0]}`); }
-  updateUI();
-  startAuto();
+  totalSlides = list.length;
+  if(totalSlides){ selectItem(list[0].name, absoluteUrl(list[0].url.startsWith('http')? list[0].url : `./${dir}/${list[0].url}`)); }
+  current = 0; updateUI(); startAuto();
 }
 
 function updateUI(){
-  const total = document.querySelectorAll('.slide').length || images.length;
-  document.getElementById('slides').style.transform = `translateX(-${current*100}%)`;
+  const el = document.getElementById('slides');
+  el.style.transform = `translateX(-${current*100}%)`;
   [...document.querySelectorAll('.dot')].forEach((d,i)=> d.classList.toggle('active', i===current));
-  if(current>=total) current=0;
-  if(current<0) current=total-1;
+  if(totalSlides){
+    if(current>=totalSlides) current = 0;
+    if(current<0) current = totalSlides-1;
+  }
 }
+function goToSlide(i){ if(!totalSlides) return; current = (i + totalSlides) % totalSlides; updateUI(); }
+function prevSlide(){ goToSlide(current-1); }
+function nextSlide(){ goToSlide(current+1); }
+function startAuto(){ if(autoTimer) clearInterval(autoTimer); autoTimer = setInterval(()=>{ nextSlide(); }, 2000); }
 
-function goToSlide(i){ current = (i + images.length) % images.length; updateUI(); }
-function prevSlide(){ goToSlide(current - 1); }
-function nextSlide(){ goToSlide(current + 1); }
+function selectItem(name,url){ selected = {name,url}; document.getElementById('selectedTag').innerHTML = `<span class='tag'>${name}</span>`; }
 
-function startAuto(){
-  if(autoTimer) clearInterval(autoTimer);
-  autoTimer = setInterval(()=>{ nextSlide(); }, 2000); // حركة سريعة كل ثانيتين
-}
-
-function selectItem(name,url){
-  selected = { name, url };
-  document.getElementById('selectedTag').innerHTML = `<span class='tag'>${name}</span>`;
-}
-
-function sanitizePhone(v){ return (v||'').replace(/\D+/g,''); }
-
+// =================== واتساب ===================
 function submitWA(){
   const fullname = document.getElementById('fullname').value.trim();
   const phone    = sanitizePhone(document.getElementById('phone').value);
-  const address  = (document.getElementById('address')?.value || '').trim();
-  const notes    = (document.getElementById('notes')?.value || '').trim();
+  const address  = (document.getElementById('address')?.value||'').trim();
+  const notes    = (document.getElementById('notes')?.value||'').trim();
   const note     = document.getElementById('formNote');
-
-  if(!selected){ note.innerHTML = '⚠️ اختر صورة أولاً.'; return; }
-  if(!fullname || phone.length < 8){ note.innerHTML = '⚠️ أدخل الاسم والهاتف بشكل صحيح.'; return; }
-
-  const msg = `طلب جديد من صفحة الهبوط\nالاسم: ${fullname}\nالهاتف: ${phone}\nالعنوان: ${address || '-'}\nملاحظات: ${notes || '-'}\nالصورة: ${selected.name}\nالرابط: ${new URL(selected.url, location.href).href}`;
-  const url = `https://wa.me/${YOUR_WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
-  window.open(url, '_blank');
+  if(!selected){ note.innerHTML='⚠️ اختر صورة أولاً.'; return; }
+  if(!fullname || phone.length < 8){ note.innerHTML='⚠️ أدخل الاسم والهاتف بشكل صحيح.'; return; }
+  const msg = `طلب جديد من صفحة الهبوط\nالاسم: ${fullname}\nالهاتف: ${phone}\nالعنوان: ${address||'-'}\nملاحظات: ${notes||'-'}\nالصورة: ${selected.name}\nالرابط: ${selected.url}`;
+  window.open(`https://wa.me/${YOUR_WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
   note.innerHTML = '✅ تم فتح واتساب.';
 }
 
