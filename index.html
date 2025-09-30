@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>متجر العطور - كرسول احترافي</title>
+    <title>متجر العطور - الأكبر في البلاد</title>
     <style>
-        /* الألوان: أزرق (#007bff) وأبيض (#ffffff) مع لمسات رمادية فاتحة */
+        /* الألوان: أزرق (#007bff) وأبيض (#ffffff) */
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f4f7f9; /* خلفية بيضاء مزرقة فاتحة */
+            background-color: #f4f7f9;
             color: #333;
             padding: 0;
             margin: 0;
@@ -19,14 +19,15 @@
             margin: 0 auto;
             background: #ffffff;
             box-shadow: 0 0 25px rgba(0, 0, 0, 0.08);
+            padding-bottom: 50px;
         }
         
         /* الرأس الترويجي (الـ Hero Section) */
         header {
             background-color: #007bff; /* الأزرق الأساسي */
             color: white;
-            padding: 50px 20px;
-            margin-bottom: 30px;
+            padding: 50px 20px 30px 20px;
+            margin-bottom: 0;
             border-radius: 0 0 20px 20px;
         }
         header h1 {
@@ -37,16 +38,28 @@
             font-size: 1.2em;
             opacity: 0.9;
         }
+        /* قسم السعر والعرض الخاص */
+        .price-offer {
+            background-color: #28a745; /* أخضر جذاب */
+            color: white;
+            padding: 15px 20px;
+            margin: -30px auto 30px auto; /* يرتفع فوق الهيدر */
+            max-width: 80%;
+            border-radius: 10px;
+            font-size: 1.3em;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.5);
+        }
 
-        /* زر طلب الكتالوج (الأزرق) */
+        /* زر طلب الكتالوج */
         .catalog-btn {
-            background-color: #17a2b8; /* أزرق سماوي/تركواز */
+            background-color: #17a2b8;
             color: white;
             padding: 18px 40px; 
             font-size: 1.4em;
             font-weight: bold;
             border: none;
-            border-radius: 50px; /* شكل بيضاوي */
+            border-radius: 50px; 
             cursor: pointer;
             display: inline-block;
             transition: background-color 0.3s, transform 0.2s;
@@ -60,40 +73,116 @@
         }
 
         /* ------------------------------------------------ */
-        /* قسم "عن شركتنا" */
+        /* قسم الميزات التسويقية الجديدة (نقاط القوة) */
         /* ------------------------------------------------ */
-        .about-section {
-            background-color: #f8f9fa; /* خلفية رمادية فاتحة جداً */
-            padding: 30px;
-            margin: 40px 10%; /* تضييق المساحة الجانبية */
+        .features-list {
+            margin: 30px auto 50px auto;
+            max-width: 90%;
+            text-align: right;
+            border: 1px solid #007bff;
             border-radius: 10px;
-            text-align: right; 
+            padding: 20px;
         }
-        .about-section h3 {
+        .features-list ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .features-list ul li {
+            padding: 10px 0;
+            border-bottom: 1px dashed #ced4da;
+            font-size: 1.1em;
+            color: #333;
+        }
+        .features-list ul li:last-child {
+            border-bottom: none;
+        }
+        .features-list ul li::before {
+            content: "❤️"; /* رمز القلب */
+            margin-left: 10px;
+            color: #dc3545; /* أحمر */
+            font-size: 1.2em;
+        }
+
+
+        /* ------------------------------------------------ */
+        /* قسم "لماذا تختارنا" (Trust Section) */
+        /* ------------------------------------------------ */
+        .trust-section {
+            display: flex;
+            justify-content: space-around;
+            padding: 30px 5%;
+            background-color: #e9ecef;
+            border-radius: 10px;
+            margin: 40px 5%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+        .trust-item {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #007bff;
+            padding: 0 20px;
+            text-align: center;
+        }
+        .trust-item span.number {
+            display: block;
+            font-size: 2em;
+            color: #dc3545; /* أحمر جذاب */
+            margin-bottom: 5px;
+        }
+        .trust-item span.info-text {
+             font-weight: normal;
+             color: #333;
+        }
+        .trust-item:not(:last-child) {
+             border-left: 2px solid #ced4da;
+        }
+
+        /* ------------------------------------------------ */
+        /* قسم الأسئلة الشائعة (FAQ) */
+        /* ------------------------------------------------ */
+        .faq-section {
+            margin: 40px 10%;
+            text-align: right;
+        }
+        .faq-section h3 {
             color: #007bff;
             border-bottom: 2px solid #007bff;
             padding-bottom: 10px;
             font-size: 1.8em;
-            margin-bottom: 15px;
+            margin-bottom: 25px;
             display: inline-block;
         }
-        .about-section p {
-            font-size: 1.1em;
-            line-height: 1.7;
+        .faq-item {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #ddd;
+        }
+        .faq-question {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .faq-answer {
+            color: #555;
+            padding-right: 15px;
+            line-height: 1.6;
+            border-right: 3px solid #007bff;
         }
 
+
         /* ------------------------------------------------ */
-        /* الكروسيل (Carousel) - الهيكلية الفنية */
+        /* الكرسول (Carousel) - (CSS remains the same) */
         /* ------------------------------------------------ */
         .carousel-wrapper {
             padding: 20px 0;
-            overflow: hidden; /* لإخفاء العناصر خارج نطاق العرض */
+            overflow: hidden;
             margin-bottom: 30px;
         }
         .product-carousel {
             display: flex;
             transition: transform 0.5s ease-in-out;
-            padding: 10px 0; /* مسافة أعلى وأسفل الكرسول */
+            padding: 10px 0;
         }
         .product-carousel-container {
             padding: 20px;
@@ -101,10 +190,9 @@
         }
         
         .product-item {
-            min-width: 250px; /* عرض ثابت للعنصر في الكرسول */
+            min-width: 250px;
             max-width: 250px;
             margin: 0 10px;
-            text-align: center;
             background: #ffffff;
             border: 1px solid #ddd;
             border-radius: 10px;
@@ -115,7 +203,7 @@
         }
         
         .product-item:hover {
-            border-color: #28a745; /* أخضر للطلب المباشر */
+            border-color: #28a745;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
             transform: translateY(-5px);
         }
@@ -126,7 +214,7 @@
             display: block;
         }
 
-        /* أزرار التنقل (يمين ويسار) */
+        /* أزرار التنقل */
         .nav-btn {
             position: absolute;
             top: 50%;
@@ -148,9 +236,7 @@
         .nav-left { left: 0; }
         .nav-right { right: 0; }
         
-        /* ------------------------------------------------ */
-        /* الزر النبضي (أخضر لتمييز الطلب الفوري) */
-        /* ------------------------------------------------ */
+        /* الزر النبضي */
         @keyframes heartbeat {
             0% { transform: scale(1); }
             25% { transform: scale(1.05); }
@@ -160,7 +246,7 @@
         }
         .order-button {
             display: block;
-            background-color: #28a745; /* أخضر الطلب */
+            background-color: #28a745;
             color: white;
             padding: 12px 0;
             font-weight: bold;
@@ -178,18 +264,45 @@
     <p id="header-subtitle">اكتشف مجموعتنا الحصرية واطلب العرض الذي يناسبك بنقرة واحدة مباشرة عبر واتساب.</p>
 </header>
 
+<div class="price-offer" id="price-offer-text">
+    5 عطور لا غنى عنها بـ 500 شيكل فقط! + السادس هدية!
+</div>
+
 <div class="container">
     
     <a href="javascript:void(0);" onclick="requestCatalog();" class="catalog-btn" id="catalog-btn-top">
         اطلب الكتالوج كاملاً
     </a>
 
-    <div class="about-section">
-        <h3 id="about-title">قصتنا ومنتجاتنا</h3>
-        <p id="about-text">نحن متخصصون في تقديم أرقى العطور المستوحاة من أشهر العلامات العالمية، بتركيز عالٍ وجودة تدوم طويلاً. منتجاتنا مُصممة لترضي جميع الأذواق، حيث نجمع بين الفخامة والأسعار المناسبة. قم بتمرير الكرسول أدناه لمشاهدة جميع العروض واطلب بنقرة واحدة!</p>
+    <div class="features-list">
+        <ul id="features-list-ul">
+            </ul>
+    </div>
+    
+    <div class="trust-section">
+        <div class="trust-item">
+            <span class="number" id="trust-branches-count">25</span>
+            <span class="info-text" id="trust-years-text">سنة من الخبرة في عالم العطور</span>
+        </div>
+        <div class="trust-item">
+            <span class="number" id="trust-customers-count">20,000+</span>
+            <span class="info-text" id="trust-customers-text">عميل راضٍ في إسرائيل</span>
+        </div>
+        <div class="trust-item">
+            <span class="number" id="trust-delivery-time">5</span>
+            <span class="info-text" id="trust-delivery-text">أيام عمل كحد أقصى للتوصيل</span>
+        </div>
     </div>
 
+    <h2 class="product-gallery-title" id="faq-title" style="margin-top: 50px; color:#007bff;">الأسئلة الشائعة</h2>
+    <div class="faq-section" id="faq-section">
+        </div>
+    
     <h2 class="product-gallery-title" id="products-title" style="margin-top: 50px; color:#007bff;">استكشف مجموعتنا الحصرية</h2>
+    <div class="about-section" style="margin-top: 20px;">
+        <h3 id="about-title">عرض 5+1 هدية</h3>
+        <p id="about-text" style="text-align: justify;"></p>
+    </div>
 
     <div class="carousel-wrapper">
         <div class="product-carousel-container">
@@ -197,104 +310,124 @@
             <button class="nav-btn nav-right" onclick="scrollCarousel(1)">&#10095;</button>
             <div class="product-carousel" id="product-carousel">
                 
-                <div class="product-item" onclick="window.open(getOrderLink('Amoria'), '_self')">
-                    <img src="images/amoria.png" alt="Amoria">
-                    <span class="order-button" data-name-ar="Amoria" data-name-he="אמוריה"></span>
-                </div>
+                <div class="product-item" onclick="window.open(getOrderLink('Amoria'), '_self')"><img src="images/amoria.png" alt="Amoria"><span class="order-button" data-name-ar="Amoria" data-name-he="אמוריה"></span></div>
+                <div class="product-item" onclick="window.open(getOrderLink('Berlin'), '_self')"><img src="images/berlin.png" alt="Berlin"><span class="order-button" data-name-ar="Berlin" data-name-he="ברלין"></span></div>
+                <div class="product-item" onclick="window.open(getOrderLink('Havana'), '_self')"><img src="images/havana.png" alt="Havana"><span class="order-button" data-name-ar="Havana" data-name-he="הוואנה"></span></div>
+                <div class="product-item" onclick="window.open(getOrderLink('Marvel'), '_self')"><img src="images/marvel.png" alt="Marvel"><span class="order-button" data-name-ar="Marvel" data-name-he="מארבל"></span></div>
+                <div class="product-item" onclick="window.open(getOrderLink('Norma'), '_self')"><img src="images/norma.png" alt="Norma"><span class="order-button" data-name-ar="Norma" data-name-he="נורמה"></span></div>
+                <div class="product-item" onclick="window.open(getOrderLink('Sofia'), '_self')"><img src="images/sofia.png" alt="Sofia"><span class="order-button" data-name-ar="Sofia" data-name-he="סופיה"></span></div>
+                <div class="product-item" onclick="window.open(getOrderLink('Boos and Ledy'), '_self')"><img src="images/boos and ledy.png" alt="Boos and Ledy"><span class="order-button" data-name-ar="Boos and Ledy" data-name-he="בוס וליידי"></span></div>
+                <div class="product-item" onclick="window.open(getOrderLink('P107'), '_self')"><img src="images/p107.png" alt="P107"><span class="order-button" data-name-ar="P107" data-name-he="פי107"></span></div>
+                <div class="product-item" onclick="window.open(getOrderLink('Miami'), '_self')"><img src="images/miami.png" alt="Miami"><span class="order-button" data-name-ar="Miami" data-name-he="מיאמי"></span></div>
+                <div class="product-item" onclick="window.open(getOrderLink('Pairs'), '_self')"><img src="images/pairs.png" alt="Pairs"><span class="order-button" data-name-ar="Pairs" data-name-he="פיירס"></span></div>
+                <div class="product-item" onclick="window.open(getOrderLink('Vagas'), '_self')"><img src="images/vagas.png" alt="Vagas"><span class="order-button" data-name-ar="Vagas" data-name-he="וגאס"></span></div>
+                <div class="product-item" onclick="window.open(getOrderLink('W183'), '_self')"><img src="images/w183.png" alt="W183"><span class="order-button" data-name-ar="W183" data-name-he="דבליו183"></span></div>
                 
-                <div class="product-item" onclick="window.open(getOrderLink('Berlin'), '_self')">
-                    <img src="images/berlin.png" alt="Berlin">
-                    <span class="order-button" data-name-ar="Berlin" data-name-he="ברלין"></span>
-                </div>
-
-                <div class="product-item" onclick="window.open(getOrderLink('Havana'), '_self')">
-                    <img src="images/havana.png" alt="Havana">
-                    <span class="order-button" data-name-ar="Havana" data-name-he="הוואנה"></span>
-                </div>
-
-                <div class="product-item" onclick="window.open(getOrderLink('Marvel'), '_self')">
-                    <img src="images/marvel.png" alt="Marvel">
-                    <span class="order-button" data-name-ar="Marvel" data-name-he="מארבל"></span>
-                </div>
-
-                <div class="product-item" onclick="window.open(getOrderLink('Norma'), '_self')">
-                    <img src="images/norma.png" alt="Norma">
-                    <span class="order-button" data-name-ar="Norma" data-name-he="נורמה"></span>
-                </div>
-                
-                <div class="product-item" onclick="window.open(getOrderLink('Sofia'), '_self')">
-                    <img src="images/sofia.png" alt="Sofia">
-                    <span class="order-button" data-name-ar="Sofia" data-name-he="סופיה"></span>
-                </div>
-                
-                <div class="product-item" onclick="window.open(getOrderLink('Boos and Ledy'), '_self')">
-                    <img src="images/boos and ledy.png" alt="Boos and Ledy">
-                    <span class="order-button" data-name-ar="Boos and Ledy" data-name-he="בוס וליידי"></span>
-                </div>
-                
-                <div class="product-item" onclick="window.open(getOrderLink('P107'), '_self')">
-                    <img src="images/p107.png" alt="P107">
-                    <span class="order-button" data-name-ar="P107" data-name-he="פי107"></span>
-                </div>
-                
-                <div class="product-item" onclick="window.open(getOrderLink('Miami'), '_self')">
-                    <img src="images/miami.png" alt="Miami">
-                    <span class="order-button" data-name-ar="Miami" data-name-he="מיאמי"></span>
-                </div>
-                
-                <div class="product-item" onclick="window.open(getOrderLink('Pairs'), '_self')">
-                    <img src="images/pairs.png" alt="Pairs">
-                    <span class="order-button" data-name-ar="Pairs" data-name-he="פיירס"></span>
-                </div>
-                
-                <div class="product-item" onclick="window.open(getOrderLink('Vagas'), '_self')">
-                    <img src="images/vagas.png" alt="Vagas">
-                    <span class="order-button" data-name-ar="Vagas" data-name-he="וגאס"></span>
-                </div>
-                
-                <div class="product-item" onclick="window.open(getOrderLink('W183'), '_self')">
-                    <img src="images/w183.png" alt="W183">
-                    <span class="order-button" data-name-ar="W183" data-name-he="דבליו183"></span>
-                </div>
-
             </div>
         </div>
     </div>
-    </div>
+    <a href="javascript:void(0);" onclick="requestCatalog();" class="catalog-btn" id="catalog-btn-bottom"></a>
+
+</div>
 
 <script>
     // **1. إعدادات الواتساب:**
     const whatsappNumber = "972522511749"; 
 
-    // **2. قاموس النصوص لدعم اللغات:**
+    // **2. قاموس النصوص لدعم اللغات (الترجمة والترتيب حسب النص الذي أرسلته):**
     const texts = {
         ar: {
+            // النصوص الترويجية والعناوين
             headerTitle: "عطور فاخرة تليق بذوقك الرفيع",
-            headerSubtitle: "اكتشف مجموعتنا الحصرية واطلب العرض الذي يناسبك بنقرة واحدة مباشرة عبر واتساب.",
+            headerSubtitle: "لا داعي للدفع أكثر من 5000 شيكل! استمتع بـ 5 عطور رائعة اليوم بـ 500 شيكل فقط.",
+            priceOffer: "5 عطور بـ 500 شيكل فقط! + السادس هدية! توصيل مجاني والدفع نقداً عند الاستلام.",
             catalogBtn: "اطلب الكتالوج كاملاً",
-            aboutTitle: "قصتنا ومنتجاتنا",
-            aboutText: "نحن متخصصون في تقديم أرقى العطور المستوحاة من أشهر العلامات العالمية، بتركيز عالٍ وجودة تدوم طويلاً. منتجاتنا مُصممة لترضي جميع الأذواق، حيث نجمع بين الفخامة والأسعار المناسبة. قم بتمرير الكرسول أدناه لمشاهدة جميع العروض واطلب بنقرة واحدة!",
             productsTitle: "استكشف مجموعتنا الحصرية",
             orderBtnPrefix: "أطلب عرض",
+            
+            // نقاط قوة العرض
+            features: [
+                "نفس الرائحة تماماً مثل العطر الأصلي 1:1 (لا أحد سيلاحظ أنك اشتريت عطر مطابق! تعهد بذلك!)",
+                "ثبات يدوم طوال اليوم على البشرة",
+                "لن تتوقف صديقاتك عن الإطراء والسؤال عن عطرك",
+                "يترك أثرًا من رائحة أنثوية مذهلة وساحرة لا يمكن تجاهلها.",
+                "بسبب نقص في مخزون Prada، ستحصلون على عطر La Vie Est Belle (Lancôme) وعطر سادس مجاني من Tom Ford."
+            ],
+            
+            // الثقة والمصداقية
+            trustYearsText: "سنة من الخبرة في عالم العطور",
+            trustCustomersText: "عميل راضٍ في إسرائيل",
+            trustDeliveryText: "أيام عمل كحد أقصى للتوصيل",
+            
+            // قسم الشرح
+            aboutTitle: "عرض 5+1 هدية",
+            aboutText: "الآن يمكنكم الاستمتاع بـ 5 عطور مطابقة بأعلى مستوى من الجودة والثبات، دون الحاجة لدفع آلاف الشواقل. التوصيل عن طريق مندوب حتى باب المنزل، والدفع نقداً للمندوب.",
+            
+            // الأسئلة الشائعة
+            faqTitle: "أسئلة شائعة:",
+            faqs: [
+                { q: "كم ملليلتر حجم العطور؟", a: "العطور بحجم 100 ملل." },
+                { q: "ما مدى تشابه العطور؟", a: "العطور مطابقة 1 لـ 1 بدون أي فرق." },
+                { q: "ما هو تركيز العطر؟", a: "مستوى التركيز هو أو دو برفيوم (Eau De Parfum)." },
+                { q: "هل هذا عطر زيتي؟", a: "لا. إنه عطر عادي، يحتوي على مستخلصات وكحول." },
+                { q: "كم مدة التوصيل؟", a: "حتى 7 أيام عمل لجميع أنحاء البلاد. قد تكون هناك تأخيرات بسيطة هذا الأسبوع." },
+                { q: "كيف يتم الدفع؟", a: "الدفع للمندوب نقداً." },
+                { q: "ما هو السعر؟", a: "5 عطور بـ 500 شيكل شامل التوصيل حتى المنزل." },
+                { q: "هل الزجاجة هي نفسها؟", a: "لا. الفرق الوحيد هو العلامة التجارية. لا نعتقد أنه يجب الدفع أكثر بسبب 'علامة تجارية'. نحن نبيع نفس المنتج بالضبط، من حيث الثبات والرائحة، ولكن بدون العلامة التجارية." }
+            ],
+            
+            // رسائل الواتساب
             waMsgOrder: (name) => `مرحباً، أنا مهتم بالحصول على العرض التالي:\n\n*اسم العرض/المنتج:* ${name}\n\nالرجاء تزويدي بالتفاصيل وطريقة الطلب.`,
             waMsgCatalog: "مرحباً، أرجو إرسال الكتالوج الكامل لجميع المنتجات. شكراً."
         },
         he: {
             headerTitle: "בשמים יוקרתיים שמתאימים לטעם שלך",
-            headerSubtitle: "גלה את הקולקציה הבלעדית שלנו והזמן את המבצע המתאים לך בלחיצה ישירה לוואטסאפ.",
+            headerSubtitle: "לא צריך לשלם יותר 5,000 ש\"ח! תיהנו היום מ-5 בשמים מדהימים רק ב-500 ש\"ח.",
+            priceOffer: "5 בשמים לאישה ב-500 ש\"ח כולל משלוח עד הבית בחינם! + השישי במתנה!",
             catalogBtn: "בבקשה קטלוג מלא",
-            aboutTitle: "הסיפור שלנו והמוצרים",
-            aboutText: "אנו מתמחים בהצגת הבשמים היוקרתיים ביותר בהשראת המותגים הבינלאומיים המפורסמים ביותר, בריכוז גבוה ואיכות לאורך זמן. המוצרים שלנו נועדו לספק את כל הטעמים, שכן אנו משלבים יוקרה ומחירים נוחים. גלול בגלריה למטה כדי לראות את כל המבצעים והזמן בלחיצה אחת!",
-            productsTitle: "גלה את המבצעים הבלעדיים שלנו",
+            productsTitle: "גלה את הקולקציה הבלעדית שלנו",
             orderBtnPrefix: "הזמן מבצע",
+
+            // نقاط قوة العرض
+            features: [
+                "אותו ריח כמו הבושם המקורי 1 ל-1 (אף אחד לא ישים לב שרכשת תואם בהתחייבות!)",
+                "עמיד לאורך כל היום על העור",
+                "חברות שלך לא יפסיקו להחמיא לך ולשאול אותך איזה בושם שמת",
+                "משאירים שובל של ריח נשי מדהים ומהפנט שלא ניתן להתעלם ממנו.",
+                "בעקבות מחסור במלאי בפראדה תקבלו לאבי אבל ובושם שישי במתנה מבית טום פורד."
+            ],
+            
+            // الثقة والمصداقية
+            trustYearsText: "שנות ניסיון בעולם הבישום",
+            trustCustomersText: "לקוחות מרוצים רק בישראל",
+            trustDeliveryText: "ימי עסקים למשלוח עד הבית",
+
+            // قسم الشرح
+            aboutTitle: "מבצע 5+1 במתנה",
+            aboutText: "אין צורך יותר לשלם אלפי שקלים על בשמים. כיום אפשר ליהנות מ-5 בשמים תואמים, ברמה הכי גבוהה שיש עם אותה עמידות. המשלוח עם שליח עד הבית, התשלום לשליח במזומן.",
+
+            // الأسئلة الشائعة
+            faqTitle: "שאלות נפוצות:",
+            faqs: [
+                { q: "כמה מייל הבשמים?", a: "הבשמים הם 100 מ\"ל." },
+                { q: "עד כמה דומים הבשמים?", a: "הבשמים דומים 1 ל-1 ללא שום הבדל." },
+                { q: "מה רמת הריכוז של הבושם?", a: "רמת הריכוז היא או דה פרפיום." },
+                { q: "האם מדובר בבושם שמן?", a: "לא. מדובר בבושם רגיל, עם תמציות ואלכוהול." },
+                { q: "כמה זמן משלוח?", a: "עד 7 ימי עסקים לכל מקום בארץ, ייתכן והשבוע יהיו קצת עיכובים." },
+                { q: "איך משלמים?", a: "תשלום לשליח במזומן." },
+                { q: "מה המחיר?", a: "5 בשמים ב-500 ש\"ח כולל משלוח עד הבית." },
+                { q: "האם מדובר באותו בקבוק?", a: "לא. ההבדל היחיד הוא המיתוג. אנחנו לא מאמינים שבגלל \"מיתוג\" צריך לשלם יותר. אנחנו מוכרים את אותו המוצר בול, גם מבחינת העמידות וגם מבחינת הריח רק בלי המיתוג." }
+            ],
+            
+            // رسائل الواتساب
             waMsgOrder: (name) => `היי, אני מעוניין בהצעה הבאה:\n\n*שם המבצע/המוצר:* ${name}\n\nנא לספק פרטים ודרך להזמנה.`,
             waMsgCatalog: "היי, אבקש לשלוח לי את הקטלוג המלא של כל המוצרים. תודה."
         }
     };
     
-    // **3. وظيفة الكرسول (Carousel Functionality)**
+    // **3. وظيفة الكرسول (Carousel Functionality)** (No change)
     let scrollPosition = 0;
-    const itemWidth = 270; // (250px item width + 20px margin)
+    const itemWidth = 270; 
     
     function scrollCarousel(direction) {
         const carousel = document.getElementById('product-carousel');
@@ -308,7 +441,10 @@
             scrollPosition = Math.max(scrollPosition - 1, 0);
         }
         
-        carousel.style.transform = `translateX(${-scrollPosition * itemWidth}px)`;
+        const currentLang = document.documentElement.lang;
+        const dirFactor = (currentLang === 'he' || currentLang === 'ar') ? 1 : -1;
+        
+        carousel.style.transform = `translateX(${-scrollPosition * itemWidth * dirFactor}px)`;
     }
 
 
@@ -325,10 +461,35 @@
         // تعديل النصوص الرئيسية
         document.getElementById('header-title').textContent = t.headerTitle;
         document.getElementById('header-subtitle').textContent = t.headerSubtitle;
+        document.getElementById('price-offer-text').textContent = t.priceOffer;
+        
+        // الأزرار
         document.getElementById('catalog-btn-top').textContent = t.catalogBtn;
+        document.getElementById('catalog-btn-bottom').textContent = t.catalogBtn;
+        document.getElementById('products-title').textContent = t.productsTitle;
+        
+        // الثقة والمصداقية
+        document.getElementById('trust-years-text').textContent = t.trustYearsText;
+        document.getElementById('trust-customers-text').textContent = t.trustCustomersText;
+        document.getElementById('trust-delivery-text').textContent = t.trustDeliveryText;
+
+        // قسم الشرح
         document.getElementById('about-title').textContent = t.aboutTitle;
         document.getElementById('about-text').textContent = t.aboutText;
-        document.getElementById('products-title').textContent = t.productsTitle;
+        
+        // قائمة الميزات (نقاط القوة)
+        const featuresUl = document.getElementById('features-list-ul');
+        featuresUl.innerHTML = t.features.map(item => `<li>${item}</li>`).join('');
+        
+        // الأسئلة الشائعة
+        document.getElementById('faq-title').textContent = t.faqTitle;
+        const faqSection = document.getElementById('faq-section');
+        faqSection.innerHTML = t.faqs.map(item => `
+            <div class="faq-item">
+                <div class="faq-question">${item.q}</div>
+                <div class="faq-answer">${item.a}</div>
+            </div>
+        `).join('');
 
         // تعديل نصوص أزرار الطلب الفردية
         const orderButtons = document.querySelectorAll('.order-button');
@@ -337,17 +498,26 @@
             button.textContent = `${t.orderBtnPrefix} ${productName}`;
         });
 
-        // تعديل اتجاه الكرسول ليتوافق مع لغة RTL/LTR
+        // تعديل اتجاه الكرسول
+        const carousel = document.getElementById('product-carousel');
+        const navLeft = document.querySelector('.nav-left');
+        const navRight = document.querySelector('.nav-right');
         if (currentLang === 'he' || currentLang === 'ar') {
-            document.getElementById('product-carousel').style.flexDirection = 'row-reverse';
+            carousel.style.flexDirection = 'row-reverse';
+            navLeft.innerHTML = '&#10095;'; 
+            navRight.innerHTML = '&#10094;'; 
         } else {
-             document.getElementById('product-carousel').style.flexDirection = 'row';
+             carousel.style.flexDirection = 'row';
+             navLeft.innerHTML = '&#10094;';
+             navRight.innerHTML = '&#10095;';
         }
+        scrollPosition = 0;
+        carousel.style.transform = `translateX(0px)`;
     }
 
     document.addEventListener('DOMContentLoaded', setLanguage);
     
-    // **5. دوال الواتساب (تستخدم النصوص المترجمة)**
+    // **5. دوال الواتساب (تستخدم النصوص المترجمة)** (No change)
     function getOrderLink(productName) {
         const langCode = (navigator.language || navigator.userLanguage).toLowerCase().substring(0, 2);
         const currentLang = (langCode === 'he') ? 'he' : 'ar';
