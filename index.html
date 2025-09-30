@@ -178,48 +178,34 @@
         }
 
         /* ------------------------------------------------ */
-        /* الكرسول (Carousel) - التعديلات الجديدة للتمرير اليدوي */
+        /* الكرسول (Carousel) - تعديل حجم الصور */
         /* ------------------------------------------------ */
         .carousel-wrapper {
             padding: 20px 0;
-            overflow-x: scroll; /* تفعيل التمرير الأفقي اليدوي */
+            overflow-x: scroll; 
             margin-bottom: 30px;
-            
-            /* خصائص التمرير الجديدة (Scroll Snap) */
             scroll-snap-type: x mandatory; 
-            -webkit-overflow-scrolling: touch; /* لتحسين التمرير على iOS */
+            -webkit-overflow-scrolling: touch; 
         }
 
-        /* إخفاء شريط التمرير الافتراضي في المتصفحات المختلفة */
-        .carousel-wrapper::-webkit-scrollbar {
-            height: 5px;
-        }
-        .carousel-wrapper::-webkit-scrollbar-thumb {
-            background: #007bff;
-            border-radius: 10px;
-        }
-        .carousel-wrapper::-webkit-scrollbar-track {
-            background: #ccc;
-        }
-        .carousel-wrapper {
-            scrollbar-width: thin; /* Firefox */
-            scrollbar-color: #007bff #ccc; /* Firefox */
-        }
+        /* تنسيقات شريط التمرير */
+        .carousel-wrapper::-webkit-scrollbar { height: 5px; }
+        .carousel-wrapper::-webkit-scrollbar-thumb { background: #007bff; border-radius: 10px; }
+        .carousel-wrapper::-webkit-scrollbar-track { background: #ccc; }
+        .carousel-wrapper { scrollbar-width: thin; scrollbar-color: #007bff #ccc; }
         
         .product-carousel {
             display: flex;
-            transition: none; /* إزالة الانتقال التلقائي للتحكم اليدوي */
+            transition: none; 
             padding: 10px 0;
-            width: fit-content; /* للسماح بالتمرير الفعلي */
+            width: fit-content; 
         }
-        .product-carousel-container {
-            padding: 0; /* تم إزالة الحشو الداخلي */
-            position: relative;
-        }
+        .product-carousel-container { padding: 0; position: relative; }
         
         .product-item {
-            min-width: 250px;
-            max-width: 250px;
+            /* تعديل الحجم ليتناسب مع العرض السابق (أصغر) */
+            min-width: 180px; 
+            max-width: 180px;
             margin: 0 10px;
             text-align: center;
             background: #ffffff;
@@ -229,14 +215,21 @@
             cursor: pointer;
             transition: all 0.3s;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            
-            /* خاصية التوقف (Snap Stop) */
-            scroll-snap-align: start; 
+            scroll-snap-align: center; /* تمركز العنصر في منتصف العرض عند التمرير */
         }
         
-        /* إزالة أزرار التنقل بالكامل */
-        .nav-btn { display: none; } 
-
+        .product-item:hover {
+            border-color: #28a745;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            transform: translateY(-5px);
+        }
+        
+        .product-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
         /* الزر النبضي (Heartbeat Animation remains) */
         @keyframes heartbeat {
             0% { transform: scale(1); }
@@ -254,6 +247,28 @@
             text-decoration: none;
             font-size: 1em;
             animation: heartbeat 1s infinite ease-in-out; 
+        }
+
+        /* ------------------------------------------------ */
+        /* زر العودة الجديد */
+        /* ------------------------------------------------ */
+        .back-to-top-btn {
+            background-color: #007bff;
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: inline-block;
+            transition: background-color 0.3s;
+            text-decoration: none; 
+            margin-top: 40px;
+            box-shadow: 0 4px 10px rgba(0, 123, 255, 0.4);
+        }
+        .back-to-top-btn:hover {
+            background-color: #0056b3;
         }
 
     </style>
@@ -324,6 +339,10 @@
     <div class="faq-section" id="faq-section">
         </div>
     
+    <a href="#products-title" class="back-to-top-btn" id="back-to-products-btn">
+        العودة لاختيار العرض
+    </a>
+
     <a href="javascript:void(0);" onclick="requestCatalog();" class="catalog-btn" id="catalog-btn-bottom">اطلب الكتالوج كاملاً</a>
 
 </div>
@@ -341,25 +360,19 @@
             catalogBtn: "اطلب الكتالوج كاملاً",
             productsTitle: "استكشف مجموعتنا الحصرية",
             orderBtnPrefix: "أطلب عرض",
-            
-            // نقاط قوة العرض
+            backBtn: "العودة لاختيار العرض", // النص الجديد
+            // ... (باقي النصوص تبقى كما هي)
             features: [
                 "نفس الرائحة تماماً مثل العطر الأصلي 1:1 (لا أحد سيلاحظ أنك اشتريت عطر مطابق! تعهد بذلك!)",
                 "ثبات يدوم طوال اليوم على البشرة",
                 "سواء كنت رجلاً أو امرأة، ستجذب الإطراء والسؤال عن عطرك",
                 "يترك أثرًا من رائحة مذهلة وساحرة لا يمكن تجاهلها."
             ],
-            
-            // الثقة والمصداقية
             trustYearsText: "سنة من الخبرة في عالم العطور",
             trustCustomersText: "عميل راضٍ في إسرائيل",
             trustDeliveryText: "أيام عمل كحد أقصى للتوصيل",
-            
-            // قسم الشرح
             aboutTitle: "عرض 5+1 هدية",
             aboutText: "الآن يمكنكم الاستمتاع بـ 5 عطور مطابقة بأعلى مستوى من الجودة والثبات، للرجال والنساء على حد سواء، دون الحاجة لدفع آلاف الشواقل. التوصيل عن طريق مندوب حتى باب المنزل، والدفع نقداً للمندوب.",
-            
-            // الأسئلة الشائعة
             faqTitle: "أسئلة شائعة:",
             faqs: [
                 { q: "كم ملليلتر حجم العطور؟", a: "العطور بحجم 100 ملل." },
@@ -371,8 +384,6 @@
                 { q: "ما هو السعر؟", a: "5 عطور بـ 500 شيكل شامل التوصيل حتى المنزل." },
                 { q: "هل الزجاجة هي نفسها؟", a: "لا. الفرق الوحيد هو العلامة التجارية. نحن نبيع نفس المنتج بالضبط، من حيث الثبات والرائحة، ولكن بدون العلامة التجارية." }
             ],
-            
-            // رسائل الواتساب
             waMsgOrder: (name) => `مرحباً، أنا مهتم بالحصول على العرض التالي:\n\n*اسم العرض/المنتج:* ${name}\n\nالرجاء تزويدي بالتفاصيل وطريقة الطلب.`,
             waMsgCatalog: "مرحباً، أرجو إرسال الكتالوج الكامل لجميع المنتجات. شكراً."
         },
@@ -383,25 +394,19 @@
             catalogBtn: "בבקשה קטלוג מלא",
             productsTitle: "גלה את הקולקציה הבלעדית שלנו",
             orderBtnPrefix: "הזמן מבצע",
-            
-            // نقاط قوة العرض
+            backBtn: "חזרה לבחירת המבצע", // النص الجديد
+            // ... (בاقي النصوص נשארות כפי שהן)
             features: [
                 "אותו ריח כמו הבושם המקורי 1 ל-1 (אף אחד לא ישים לב שרכשת תואם בהתחייבות!)",
                 "עמיד לאורך כל היום על העור",
                 "חברים שלך לא יפסיקו להחמיא לך ולשאול אותך איזה בושם שמת",
                 "משאירים שובל של ריח מדהים ומהפנט שלא ניתן להתעלם ממנו."
             ],
-            
-            // الثقة والمصداقية
             trustYearsText: "שנות ניסיון בעולם הבישום",
             trustCustomersText: "לקוחות מרוצים רק בישראל",
             trustDeliveryText: "ימי עסקים למשלוח עד הבית",
-
-            // قسم الشرح
             aboutTitle: "מבצע 5+1 במתנה",
             aboutText: "אין צורך יותר לשלם אלפי שקלים על בשמים. כיום אפשר ליהנות מ-5 בשמים תואמים, לגברים ולנשים, ברמה הכי גבוהה שיש עם אותה עמידות. המשלוח עם שליח עד הבית, התשלום לשליח במזומן.",
-
-            // الأسئلة الشائعة
             faqTitle: "שאלות נפוצות:",
             faqs: [
                 { q: "כמה מייל הבשמים?", a: "הבשמים הם 100 מ\"ל." },
@@ -411,16 +416,14 @@
                 { q: "כמה זמן משלוח؟", a: "עד 7 ימי עסקים לכל מקום בארץ، ייתכן והשבוע יהיו קצת עיכובים." },
                 { q: "איך משלמים؟", a: "תשלום לשליח במזומן." },
                 { q: "מה המחיר؟", a: "5 בשמים ב-500 ש\"ח כולל משלוח עד הבית." },
-                { q: "האם מדובר באותו בקבוק؟", a: "לא. ההבדל היחיד هو المיתוג. אנחנו לא מאמינים שבגלל \"מיתוג\" צריך לשלם יותר. אנחנו מוכרים את אותו המוצר בול, גם מבחינת העמידות וגם מבחינת הריח רק בלי המיתוג." }
+                { q: "האם מדובר באותו בקבוק؟", a: "לא. ההבדל היחיד הוא המיתוג. אנחנו לא מאמינים שבגלל \"מיתוג\" צריך לשלם יותר. אנחנו מוכרים את אותו המוצר בול، גם מבחינת העמידות וגם מבחינת הריח רק בלי המיתוג." }
             ],
-            
-            // رسائل الواتساب
             waMsgOrder: (name) => `היי, אני מעוניין בהצעה הבאה:\n\n*שם המבצע/המוצר:* ${name}\n\nנא לספק פרטים ודרך להזמנה.`,
             waMsgCatalog: "היי, אבקש לשלוח לי את הקטלוג המלא של כל המוצרים. תודה."
         }
     };
     
-    // **3. إلغاء وظيفة الكرسول التلقائي والأسهم (الآن يعمل الكرسول يدوياً بالـ CSS)**
+    // **3. وظائف الصفحة**
     
     function setLanguage() {
         const langCode = (navigator.language || navigator.userLanguage).toLowerCase().substring(0, 2);
@@ -440,6 +443,7 @@
         document.getElementById('catalog-btn-top').textContent = t.catalogBtn;
         document.getElementById('catalog-btn-bottom').textContent = t.catalogBtn;
         document.getElementById('products-title').textContent = t.productsTitle;
+        document.getElementById('back-to-products-btn').textContent = t.backBtn; // الزر الجديد
         
         // الثقة والمصداقية
         document.getElementById('trust-years-text').textContent = t.trustYearsText;
@@ -471,7 +475,7 @@
             button.textContent = `${t.orderBtnPrefix} ${productName}`;
         });
 
-        // تعديل اتجاه الكرسول (CSS يتولى التمرير الآن، لكن هذا يضمن ترتيب العناصر)
+        // تعديل اتجاه الكرسول
         const carousel = document.getElementById('product-carousel');
         if (currentLang === 'he' || currentLang === 'ar') {
             carousel.style.flexDirection = 'row-reverse';
