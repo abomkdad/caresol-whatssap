@@ -43,7 +43,7 @@
             background-color: #28a745; /* أخضر جذاب */
             color: white;
             padding: 15px 20px;
-            margin: -30px auto 30px auto; /* يرتفع فوق الهيدر */
+            margin: -30px auto 30px auto; 
             max-width: 80%;
             border-radius: 10px;
             font-size: 1.3em;
@@ -73,7 +73,7 @@
         }
 
         /* ------------------------------------------------ */
-        /* قسم الميزات التسويقية الجديدة (نقاط القوة) */
+        /* أقسام المحتوى */
         /* ------------------------------------------------ */
         .features-list {
             margin: 30px auto 50px auto;
@@ -94,20 +94,12 @@
             font-size: 1.1em;
             color: #333;
         }
-        .features-list ul li:last-child {
-            border-bottom: none;
-        }
         .features-list ul li::before {
-            content: "❤️"; /* رمز القلب */
+            content: "❤️";
             margin-left: 10px;
-            color: #dc3545; /* أحمر */
+            color: #dc3545;
             font-size: 1.2em;
         }
-
-
-        /* ------------------------------------------------ */
-        /* قسم "لماذا تختارنا" (Trust Section) */
-        /* ------------------------------------------------ */
         .trust-section {
             display: flex;
             justify-content: space-around;
@@ -127,7 +119,7 @@
         .trust-item span.number {
             display: block;
             font-size: 2em;
-            color: #dc3545; /* أحمر جذاب */
+            color: #dc3545;
             margin-bottom: 5px;
         }
         .trust-item span.info-text {
@@ -137,15 +129,11 @@
         .trust-item:not(:last-child) {
              border-left: 2px solid #ced4da;
         }
-
-        /* ------------------------------------------------ */
-        /* قسم الأسئلة الشائعة (FAQ) */
-        /* ------------------------------------------------ */
         .faq-section {
             margin: 40px 10%;
             text-align: right;
         }
-        .faq-section h3 {
+        .faq-section h3, .video-section h3 {
             color: #007bff;
             border-bottom: 2px solid #007bff;
             padding-bottom: 10px;
@@ -169,7 +157,31 @@
             line-height: 1.6;
             border-right: 3px solid #007bff;
         }
-
+        
+        /* قسم الفيديو */
+        .video-section {
+            margin: 50px auto;
+            max-width: 90%;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+        }
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* نسبة 16:9 للفيديو */
+            height: 0;
+            overflow: hidden;
+            margin-top: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
 
         /* ------------------------------------------------ */
         /* الكرسول (Carousel) - (CSS remains the same) */
@@ -188,7 +200,6 @@
             padding: 20px;
             position: relative;
         }
-        
         .product-item {
             min-width: 250px;
             max-width: 250px;
@@ -201,20 +212,16 @@
             transition: all 0.3s;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
-        
         .product-item:hover {
             border-color: #28a745;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
             transform: translateY(-5px);
         }
-        
         .product-item img {
             width: 100%;
             height: auto;
             display: block;
         }
-
-        /* أزرار التنقل */
         .nav-btn {
             position: absolute;
             top: 50%;
@@ -235,8 +242,6 @@
         }
         .nav-left { left: 0; }
         .nav-right { right: 0; }
-        
-        /* الزر النبضي */
         @keyframes heartbeat {
             0% { transform: scale(1); }
             25% { transform: scale(1.05); }
@@ -265,7 +270,7 @@
 </header>
 
 <div class="price-offer" id="price-offer-text">
-    5 عطور لا غنى عنها بـ 500 شيكل فقط! + السادس هدية!
+    5 عطور لا غنى عنها بـ 500 شيكل فقط! + السادس هدية! توصيل مجاني.
 </div>
 
 <div class="container">
@@ -281,7 +286,7 @@
     
     <div class="trust-section">
         <div class="trust-item">
-            <span class="number" id="trust-branches-count">25</span>
+            <span class="number" id="trust-years-count">25</span>
             <span class="info-text" id="trust-years-text">سنة من الخبرة في عالم العطور</span>
         </div>
         <div class="trust-item">
@@ -326,31 +331,50 @@
             </div>
         </div>
     </div>
-    <a href="javascript:void(0);" onclick="requestCatalog();" class="catalog-btn" id="catalog-btn-bottom"></a>
+
+    <div class="video-section">
+        <h3 id="video-title">شاهد فيديو توضيحي للعرض!</h3>
+        <div class="video-container">
+            <iframe id="promo-video-frame" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+            </iframe>
+        </div>
+    </div>
+    
+    <a href="javascript:void(0);" onclick="requestCatalog();" class="catalog-btn" id="catalog-btn-bottom">اطلب الكتالوج كاملاً</a>
 
 </div>
 
 <script>
-    // **1. إعدادات الواتساب:**
+    // **1. إعدادات الواتساب وروابط الفيديو:**
     const whatsappNumber = "972522511749"; 
+    
+    // **مهم:** ضع روابط الفيديو هنا. يجب أن تكون روابط Embed (مثل: https://www.youtube.com/embed/VIDEO_ID)
+    const videoLinks = {
+        ar: "https://www.youtube.com/embed/ARABIC_VIDEO_ID_HERE", // **ضع رابط الفيديو العربي هنا**
+        he: "https://www.youtube.com/embed/HEBREW_VIDEO_ID_HERE"  // **ضع رابط الفيديو العبري هنا**
+    };
+    // **ملاحظة:** إذا لم يكن لديك رابط Embed، ابحث عن كلمة "embed" في خيارات المشاركة في YouTube.
 
-    // **2. قاموس النصوص لدعم اللغات (الترجمة والترتيب حسب النص الذي أرسلته):**
+    // **2. قاموس النصوص لدعم اللغات:**
     const texts = {
         ar: {
-            // النصوص الترويجية والعناوين
             headerTitle: "عطور فاخرة تليق بذوقك الرفيع",
             headerSubtitle: "لا داعي للدفع أكثر من 5000 شيكل! استمتع بـ 5 عطور رائعة اليوم بـ 500 شيكل فقط.",
             priceOffer: "5 عطور بـ 500 شيكل فقط! + السادس هدية! توصيل مجاني والدفع نقداً عند الاستلام.",
             catalogBtn: "اطلب الكتالوج كاملاً",
             productsTitle: "استكشف مجموعتنا الحصرية",
             orderBtnPrefix: "أطلب عرض",
+            videoTitle: "شاهد فيديو توضيحي للعرض!", // نص جديد للفيديو
             
             // نقاط قوة العرض
             features: [
                 "نفس الرائحة تماماً مثل العطر الأصلي 1:1 (لا أحد سيلاحظ أنك اشتريت عطر مطابق! تعهد بذلك!)",
                 "ثبات يدوم طوال اليوم على البشرة",
-                "لن تتوقف صديقاتك عن الإطراء والسؤال عن عطرك",
-                "يترك أثرًا من رائحة أنثوية مذهلة وساحرة لا يمكن تجاهلها.",
+                "سواء كنت رجلاً أو امرأة، ستجذب الإطراء والسؤال عن عطرك",
+                "يترك أثرًا من رائحة مذهلة وساحرة لا يمكن تجاهلها.",
                 "بسبب نقص في مخزون Prada، ستحصلون على عطر La Vie Est Belle (Lancôme) وعطر سادس مجاني من Tom Ford."
             ],
             
@@ -361,7 +385,7 @@
             
             // قسم الشرح
             aboutTitle: "عرض 5+1 هدية",
-            aboutText: "الآن يمكنكم الاستمتاع بـ 5 عطور مطابقة بأعلى مستوى من الجودة والثبات، دون الحاجة لدفع آلاف الشواقل. التوصيل عن طريق مندوب حتى باب المنزل، والدفع نقداً للمندوب.",
+            aboutText: "الآن يمكنكم الاستمتاع بـ 5 عطور مطابقة بأعلى مستوى من الجودة والثبات، للرجال والنساء على حد سواء، دون الحاجة لدفع آلاف الشواقل. التوصيل عن طريق مندوب حتى باب المنزل، والدفع نقداً للمندوب.",
             
             // الأسئلة الشائعة
             faqTitle: "أسئلة شائعة:",
@@ -373,7 +397,7 @@
                 { q: "كم مدة التوصيل؟", a: "حتى 7 أيام عمل لجميع أنحاء البلاد. قد تكون هناك تأخيرات بسيطة هذا الأسبوع." },
                 { q: "كيف يتم الدفع؟", a: "الدفع للمندوب نقداً." },
                 { q: "ما هو السعر؟", a: "5 عطور بـ 500 شيكل شامل التوصيل حتى المنزل." },
-                { q: "هل الزجاجة هي نفسها؟", a: "لا. الفرق الوحيد هو العلامة التجارية. لا نعتقد أنه يجب الدفع أكثر بسبب 'علامة تجارية'. نحن نبيع نفس المنتج بالضبط، من حيث الثبات والرائحة، ولكن بدون العلامة التجارية." }
+                { q: "هل الزجاجة هي نفسها؟", a: "لا. الفرق الوحيد هو العلامة التجارية. نحن نبيع نفس المنتج بالضبط، من حيث الثبات والرائحة، ولكن بدون العلامة التجارية." }
             ],
             
             // رسائل الواتساب
@@ -383,17 +407,18 @@
         he: {
             headerTitle: "בשמים יוקרתיים שמתאימים לטעם שלך",
             headerSubtitle: "לא צריך לשלם יותר 5,000 ש\"ח! תיהנו היום מ-5 בשמים מדהימים רק ב-500 ש\"ח.",
-            priceOffer: "5 בשמים לאישה ב-500 ש\"ח כולל משלוח עד הבית בחינם! + השישי במתנה!",
+            priceOffer: "5 בשמים לאישה/גבר ב-500 ש\"ח כולל משלוח עד הבית בחינם! + השישי במתנה!",
             catalogBtn: "בבקשה קטלוג מלא",
             productsTitle: "גלה את הקולקציה הבלעדית שלנו",
             orderBtnPrefix: "הזמן מבצע",
-
+            videoTitle: "צפה בסרטון הסבר על המבצע!",
+            
             // نقاط قوة العرض
             features: [
                 "אותו ריח כמו הבושם המקורי 1 ל-1 (אף אחד לא ישים לב שרכשת תואם בהתחייבות!)",
                 "עמיד לאורך כל היום על העור",
-                "חברות שלך לא יפסיקו להחמיא לך ולשאול אותך איזה בושם שמת",
-                "משאירים שובל של ריח נשי מדהים ומהפנט שלא ניתן להתעלם ממנו.",
+                "חברים שלך לא יפסיקו להחמיא לך ולשאול אותך איזה בושם שמת",
+                "משאירים שובל של ריח מדהים ומהפנט שלא ניתן להתעלם ממנו.",
                 "בעקבות מחסור במלאי בפראדה תקבלו לאבי אבל ובושם שישי במתנה מבית טום פורד."
             ],
             
@@ -404,7 +429,7 @@
 
             // قسم الشرح
             aboutTitle: "מבצע 5+1 במתנה",
-            aboutText: "אין צורך יותר לשלם אלפי שקלים על בשמים. כיום אפשר ליהנות מ-5 בשמים תואמים, ברמה הכי גבוהה שיש עם אותה עמידות. המשלוח עם שליח עד הבית, התשלום לשליח במזומן.",
+            aboutText: "אין צורך יותר לשלם אלפי שקלים על בשמים. כיום אפשר ליהנות מ-5 בשמים תואמים, לגברים ולנשים, ברמה הכי גבוהה שיש עם אותה עמידות. המשלוח עם שליח עד הבית, התשלום לשליח במזומן.",
 
             // الأسئلة الشائعة
             faqTitle: "שאלות נפוצות:",
@@ -491,6 +516,10 @@
             </div>
         `).join('');
 
+        // قسم الفيديو
+        document.getElementById('video-title').textContent = t.videoTitle;
+        document.getElementById('promo-video-frame').src = videoLinks[currentLang];
+        
         // تعديل نصوص أزرار الطلب الفردية
         const orderButtons = document.querySelectorAll('.order-button');
         orderButtons.forEach(button => {
